@@ -24,4 +24,20 @@ public class RoundResult {
     public void setRouteLength(int length) {
         this.routelength = length;
     }
+
+    public boolean contains(Point point) {
+        return resultList.contains(point);
+    }
+
+    public int size() {
+        return resultList.size();
+    }
+
+    public Point get(int i) {
+        return resultList.get(i);
+    }
+
+    public void add(int position, Point point) {
+        resultList.add(position, point);
+    }
 }
