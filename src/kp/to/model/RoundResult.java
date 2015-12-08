@@ -6,4 +6,7 @@ package kp.to.model;
 public class RoundResult {
     private int startPointIndex;
 
+    public RoundResult(int startPoint) {
+
+    }
 }
