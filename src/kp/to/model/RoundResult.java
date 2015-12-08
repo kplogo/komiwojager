@@ -56,9 +56,11 @@ public class RoundResult {
         }
 
         StringBuilder builder = new StringBuilder();
-        for (int i = startIndex; i != startIndex; i = (i+1) % resultList.size()) {
+        int i = startIndex;
+        do {
             builder.append(resultList.get(i).getLabel()).append(' ');
-        }
+            i = (i+1) % resultList.size();
+        } while(i != startIndex);
         builder.append(routelength);
         return builder.toString();
     }
