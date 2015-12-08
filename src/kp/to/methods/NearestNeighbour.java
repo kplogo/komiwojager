@@ -45,9 +45,8 @@ public class NearestNeighbour implements Algorithm {
     }
 
     private RoundResult calculate(Point startPoint) {
-        RoundResult result = new RoundResult(startPoint.getLabel());
+        RoundResult result = new RoundResult(startPoint);
         Point previouslyAdded = startPoint;
-        result.add(startPoint);
         pointList.remove(startPoint);
         int routeLength = 0;
         while (!pointList.isEmpty()) {
