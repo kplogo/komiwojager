@@ -1,6 +1,11 @@
 package kp.to;
 
+import kp.to.methods.Algorithm;
+import kp.to.methods.Grasp;
+import kp.to.methods.GreedyCycle;
+import kp.to.methods.NearestNeighbour;
 import kp.to.model.Point;
+import kp.to.model.Result;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -12,8 +17,12 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String data = readFromFile("resources/data.tsp");
-        List<Point> pointList = parseToPoints(data);
+        List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
+        Algorithm algorithm = new GreedyCycle();
+//        Algorithm algorithm = new Grasp();
+//        Algorithm algorithm = new NearestNeighbour();
+        Result result= algorithm.run(pointList);
+
     }
 
     private static List<Point> parseToPoints(String data) {
