@@ -8,9 +8,6 @@ import java.util.List;
 /**
  * Created by student on 2015-12-08.
  */
-public class Grasp implements Algorithm {
-    @Override
-    public Result run(List<Point> pointList) {
-        return null;
-    }
+public interface Algorithm {
+    Result run(List<Point> pointList);
 }
