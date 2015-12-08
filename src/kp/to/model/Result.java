@@ -1,6 +1,8 @@
 package kp.to.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -15,5 +17,21 @@ public class Result {
 
     public void addResult(RoundResult roundResult) {
         resultList.add(roundResult);
+    }
+
+    @Override
+    public String toString() {
+        List<RoundResult> results = new ArrayList<>(resultList);
+        Collections.sort(results, new Comparator<RoundResult>() {
+            @Override
+            public int compare(RoundResult o1, RoundResult o2) {
+                return o1.getRoutelength() - o2.getRoutelength();
+            }
+        });
+        StringBuilder builder = new StringBuilder();
+        for (RoundResult r : results) {
+            builder.append(r.toString()).append('\n');
+        }
+        return builder.toString();
     }
 }

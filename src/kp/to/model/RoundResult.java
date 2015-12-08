@@ -40,4 +40,28 @@ public class RoundResult {
     public void add(int position, Point point) {
         resultList.add(position, point);
     }
+
+    public int getRoutelength() {
+        return routelength;
+    }
+
+    @Override
+    public String toString() {
+        int startIndex = -1;
+        for (Point p : resultList) {
+            if (p.getLabel() == 0) {
+                startIndex = resultList.indexOf(p);
+                break;
+            }
+        }
+
+        StringBuilder builder = new StringBuilder();
+        int i = startIndex;
+        do {
+            builder.append(resultList.get(i).getLabel()).append(' ');
+            i = (i+1) % resultList.size();
+        } while(i != startIndex);
+        builder.append(routelength);
+        return builder.toString();
+    }
 }
