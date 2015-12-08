@@ -6,17 +6,22 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         String data = readFromFile("resources/data.tsp");
-        parseToPoints(data);
+        List<Point> pointList = parseToPoints(data);
     }
 
     private static List<Point> parseToPoints(String data) {
-        return null;
+        ArrayList<Point> points = new ArrayList<>();
+        for (String line : data.split(System.lineSeparator())) {
+            points.add(new Point(line));
+        }
+        return points;
     }
 
     private static String readFromFile(String fileName) throws IOException {
