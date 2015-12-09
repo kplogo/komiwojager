@@ -101,4 +101,8 @@ public class RoundResult {
     public void setRouteLength(int routeLength) {
 
     }
+
+    public void addAll(List<Point> bestSolution) {
+        resultList.addAll(bestSolution);
+    }
 }
