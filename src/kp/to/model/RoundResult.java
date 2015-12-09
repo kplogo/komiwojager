@@ -48,7 +48,7 @@ public class RoundResult {
 
         int startIndex = -1;
         for (Point p : resultList) {
-            if (p.getLabel() == startPointIndex) {
+            if (p.getLabel() == 0) {
                 startIndex = resultList.indexOf(p);
                 break;
             }
