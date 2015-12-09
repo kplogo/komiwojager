@@ -21,12 +21,11 @@ public class Main {
         Algorithm algorithm = new GreedyCycle();
 //        Algorithm algorithm = new Grasp();
 //        Algorithm algorithm = new NearestNeighbour();
-        Result result= algorithm.run(pointList);
-
+        algorithm.run(pointList);
     }
 
     private static List<Point> parseToPoints(String data) {
-        ArrayList<Point> points = new ArrayList<>();
+        List<Point> points = new ArrayList<>();
         for (String line : data.split(System.lineSeparator())) {
             points.add(new Point(line));
         }
@@ -41,14 +40,14 @@ public class Main {
             boolean start = false;
 
             while (line != null) {
-                if (line.equals("EOF")){
+                if (line.equals("EOF")) {
                     start = false;
                 }
                 if (start) {
                     sb.append(line);
                     sb.append(System.lineSeparator());
                 }
-                if (line.equals("NODE_COORD_SECTION")){
+                if (line.equals("NODE_COORD_SECTION")) {
                     start = true;
                 }
                 line = br.readLine();

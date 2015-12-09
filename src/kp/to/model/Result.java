@@ -25,7 +25,7 @@ public class Result {
         Collections.sort(results, new Comparator<RoundResult>() {
             @Override
             public int compare(RoundResult o1, RoundResult o2) {
-                return o1.getRoutelength() - o2.getRoutelength();
+                return o1.getRouteLength() - o2.getRouteLength();
             }
         });
         StringBuilder builder = new StringBuilder();
