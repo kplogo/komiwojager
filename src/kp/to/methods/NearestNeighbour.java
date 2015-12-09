@@ -40,6 +40,7 @@ public class NearestNeighbour implements Algorithm {
             this.pointList = new ArrayList<>(pointList);
             RoundResult r = calculate(startPoint);
             result.addResult(r);
+            System.out.println(r.print(false));
         }
         return result;
     }
@@ -48,16 +49,12 @@ public class NearestNeighbour implements Algorithm {
         RoundResult result = new RoundResult(startPoint);
         Point previouslyAdded = startPoint;
         pointList.remove(startPoint);
-        int routeLength = 0;
         while (!pointList.isEmpty()) {
             Point nearest = getNearestPoint(previouslyAdded);
             pointList.remove(nearest);
             result.add(nearest);
-            routeLength += Utils.length(previouslyAdded, nearest);
             previouslyAdded = nearest;
         }
-        routeLength += Utils.length(previouslyAdded, startPoint);
-        result.setRouteLength(routeLength);
         return result;
     }
 }
