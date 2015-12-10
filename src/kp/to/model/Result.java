@@ -34,4 +34,8 @@ public class Result {
         }
         return builder.toString();
     }
+
+    public RoundResult getBestResult() {
+        return resultList.stream().max((i1, i2) -> i1.getRouteLength() - i2.getRouteLength()).get();
+    }
 }

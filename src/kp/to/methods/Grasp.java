@@ -12,46 +12,74 @@ import java.util.stream.Stream;
 
 public class Grasp implements Algorithm {
 
-    public static final int MAX_ITERATIONS = 123;
-    public static final int ALFA = 5;
+    public static final int MAX_ITERATIONS = 150;
+    public static final int ALFA = 40;
     public static final int BETA = 35;
 
     @Override
     public Result run(List<Point> pointList) {
-        RoundResult bestSolution = new RoundResult(null);
+        RoundResult bestSolution = null;
         Result result = new Result();
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             RoundResult solution = constructSolution(pointList);
             solution = localSearch(solution);
-            if (isBetterSolution(solution, bestSolution)) {
-                bestSolution = solution;
-            }
             result.addResult(solution);
+            bestSolution = updateSolution(bestSolution, solution);
+            System.out.println(solution.toString());
         }
+        System.out.println();
+        System.out.println();
+        System.out.println(bestSolution.print(true));
         result.addResult(bestSolution);
 
         return result;
     }
 
+    private RoundResult updateSolution(RoundResult bestSolution, RoundResult solution) {
+        if (isBetterSolution(solution, bestSolution)) {
+            bestSolution = solution;
+        }
+        return bestSolution;
+    }
+
     private boolean isBetterSolution(RoundResult solution, RoundResult bestSolution) {
-        return solution.getRouteLength() < bestSolution.getRouteLength();
+        return bestSolution == null || solution.getRouteLength() < bestSolution.getRouteLength();
     }
 
     private RoundResult localSearch(RoundResult solution) {
-//TODO
+        RoundResult newSolution;
+        boolean progress;
+        do {
+            progress = false;
+            for (int i = 0; i < solution.size(); i++) {
+                for (int j = i; j < solution.size(); j++) {
+                    newSolution = generateSolution(solution, i, j++);
+                    if ((newSolution.getRouteLength() < solution.getRouteLength())) {
+                        solution = newSolution;
+                        progress = true;
+                        break;
+                    }
+                }
+                if (progress) {
+                    break;
+                }
+            }
+        } while (progress);
         return solution;
     }
 
+    private RoundResult generateSolution(RoundResult solution, int a, int b) {
+        RoundResult result = solution.copy();
+        result.swap(a, b);
+        return result;
+    }
+
     private RoundResult constructSolution(List<Point> pointList) {
-        RoundResult roundResult = null;
+        RoundResult roundResult = new RoundResult();
         do {
             List<Point> rclPoints = buildRCL(pointList, roundResult);
-            Point selectedPoint = rclPoints.get(Utils.round(Math.random() * pointList.size()) % pointList.size());
-            if (roundResult == null) {
-                roundResult = new RoundResult(selectedPoint);
-            } else {
-                roundResult.add(selectedPoint);
-            }
+            Point selectedPoint = rclPoints.get(Utils.round(Math.random() * rclPoints.size()) % rclPoints.size());
+            roundResult.add(selectedPoint);
         } while (roundResult.size() < pointList.size());
         return roundResult;
     }
@@ -72,18 +100,6 @@ public class Grasp implements Algorithm {
             stream = stream.limit(BETA);
         }
         stream.forEach(cost -> rclPoints.add(cost.point));
-//        for (Cost point : costList) {
-//            if (solution.contains(point.point)) {
-//                continue;
-//            }
-//             if (point.length < limit) {
-//                continue;
-//            }
-//            rclPoints.add(point.point);
-//            if (rclPoints.size() > beta) {
-//                break;
-//            }
-//        }
         return rclPoints;
     }
 
@@ -92,10 +108,22 @@ public class Grasp implements Algorithm {
     }
 
     private List<Cost> calculateCost(List<Point> pointList, RoundResult solution) {
+
         List<Cost> costList = new LinkedList<>();
+        Point solutionEnd = null;
+        if (solution.size() != 0) {
+            solutionEnd = solution.get(solution.size() - 1);
+        }
         for (Point point : pointList) {
-            Point solutionEnd = solution.get(solution.size() - 1);
-            int length = Utils.length(point, solutionEnd);
+            if (solution.contains(point)) {
+                continue;
+            }
+            int length;
+            if (solutionEnd != null) {
+                length = Utils.length(point, solutionEnd);
+            } else {
+                length = 0;
+            }
             costList.add(new Cost(point, length));
         }
         Collections.sort(costList, (o1, o2) -> o1.length - o2.length);

@@ -19,9 +19,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
 //        Algorithm algorithm = new GreedyCycle();
-//        Algorithm algorithm = new Grasp();
-        Algorithm algorithm = new NearestNeighbour();
-        algorithm.run(pointList);
+        Algorithm algorithm = new Grasp();
+//        Algorithm algorithm = new NearestNeighbour();
+        Result result = algorithm.run(pointList);
+        System.out.println(result.getBestResult().print(true));
+
     }
 
     private static List<Point> parseToPoints(String data) {

@@ -10,17 +10,27 @@ import java.util.List;
  */
 public class RoundResult {
     public static final String SEPARATOR = ";";
-    private int startPointIndex;
-    private final List<Point> resultList;
+    private List<Point> resultList;
+    private int routeLength = -1;
+
+
+    public RoundResult() {
+        resultList = new LinkedList<>();
+    }
 
     public RoundResult(Point startPoint) {
-        this.startPointIndex = startPoint.getLabel();
         resultList = new LinkedList<>();
         resultList.add(startPoint);
     }
 
+    public RoundResult(List<Point> resultList) {
+        this.resultList = new LinkedList<>();
+        this.resultList = resultList;
+    }
+
     public void add(Point p) {
         resultList.add(p);
+        routeLength = -1;
     }
 
     public boolean contains(Point point) {
@@ -37,6 +47,7 @@ public class RoundResult {
 
     public void add(int position, Point point) {
         resultList.add(position, point);
+        routeLength = -1;
     }
 
     @Override
@@ -89,20 +100,31 @@ public class RoundResult {
     }
 
     public int getRouteLength() {
-        int routeLength = 0;
-        for (int i = 0; i < resultList.size(); i++) {
-            Point point = resultList.get((i + 1) % resultList.size());
-            Point lastPoint = resultList.get(i);
-            routeLength += Utils.length(lastPoint, point);
+        if (routeLength == -1) {
+            routeLength = 0;
+            for (int i = 0; i < resultList.size(); i++) {
+                Point point = resultList.get((i + 1) % resultList.size());
+                Point lastPoint = resultList.get(i);
+                routeLength += Utils.length(lastPoint, point);
+            }
         }
         return routeLength;
     }
 
-    public void setRouteLength(int routeLength) {
-
-    }
-
     public void addAll(List<Point> bestSolution) {
         resultList.addAll(bestSolution);
+        routeLength = -1;
+    }
+
+    public RoundResult copy() {
+        return new RoundResult(new LinkedList<>(resultList));
+    }
+
+    public void swap(int a, int b) {
+        Point pointA = resultList.get(a);
+        Point pointB = resultList.get(b);
+        resultList.set(a, pointB);
+        resultList.set(b, pointA);
+        routeLength = -1;
     }
 }
