@@ -1,9 +1,6 @@
 package kp.to;
 
-import kp.to.methods.Algorithm;
-import kp.to.methods.Grasp;
-import kp.to.methods.GreedyCycle;
-import kp.to.methods.NearestNeighbour;
+import kp.to.methods.*;
 import kp.to.model.Point;
 import kp.to.model.Result;
 
@@ -12,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Main {
@@ -19,10 +18,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
 //        Algorithm algorithm = new GreedyCycle();
-        Algorithm algorithm = new Grasp();
+        Algorithm algorithm = new GraspGreedy();
+//        Algorithm algorithm = new GraspStromy();
 //        Algorithm algorithm = new NearestNeighbour();
+        Date start = Calendar.getInstance().getTime();
         Result result = algorithm.run(pointList);
         System.out.println(result.getBestResult().print(true));
+        System.out.println(Calendar.getInstance().getTime().getTime() - start.getTime());
 
     }
 

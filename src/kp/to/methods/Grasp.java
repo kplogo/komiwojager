@@ -10,11 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Grasp implements Algorithm {
+public abstract class Grasp implements Algorithm {
 
     public static final int MAX_ITERATIONS = 150;
-    public static final int ALFA = 10;
-    public static final int BETA = 10;
+    public static final int ALFA = 3;
+    public static final int BETA = 5;
 
     @Override
     public Result run(List<Point> pointList) {
@@ -40,24 +40,12 @@ public class Grasp implements Algorithm {
         return solution;
     }
 
-    private RoundResult getNeighbour(RoundResult solution) {
-        RoundResult newSolution;
-        for (int i = 0; i < solution.size(); i++) {
-            for (int j = i; j < solution.size(); j++) {
-                if (isNewSolutionCostBetter(solution, i, j)) {
-                    newSolution = generateSolution(solution, i, j);
-                    return newSolution;
-                }
-            }
+    protected abstract RoundResult getNeighbour(RoundResult solution) ;
 
-        }
-        return null;
-    }
-
-    private boolean isNewSolutionCostBetter(RoundResult solution, int a, int b) {
+    protected int isNewSolutionCostBetter(RoundResult solution, int a, int b) {
         int length1 = getLength(solution, a, b, false);
         int length2 = getLength(solution, a, b, true);
-        return length1 > length2;
+        return length1 - length2;
 
     }
 
@@ -102,7 +90,7 @@ public class Grasp implements Algorithm {
         return length1;
     }
 
-    private RoundResult generateSolution(RoundResult solution, int a, int b) {
+    protected RoundResult generateSolution(RoundResult solution, int a, int b) {
         RoundResult result = solution.copy();
         result.swap(a, b);
         return result;
