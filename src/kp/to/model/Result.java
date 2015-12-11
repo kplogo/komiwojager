@@ -36,6 +36,6 @@ public class Result {
     }
 
     public RoundResult getBestResult() {
-        return resultList.stream().max((i1, i2) -> i1.getRouteLength() - i2.getRouteLength()).get();
+        return resultList.stream().max((i1, i2) -> i2.getRouteLength() - i1.getRouteLength()).get();
     }
 }
