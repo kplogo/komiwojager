@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 public abstract class Grasp implements Algorithm {
 
     public static final int MAX_ITERATIONS = 150;
-    public static final int ALFA = 3;
+    public static final int ALFA = 25;
     public static final int BETA = 5;
 
     @Override
@@ -110,13 +110,13 @@ public abstract class Grasp implements Algorithm {
         List<Point> rclPoints = new LinkedList<>();
         List<Cost> costList = calculateCost(pointList, solution);
         int maxCost = getMaxCost(costList);
-        int limit = maxCost - Utils.round(maxCost / 100.0 * ALFA);
+        int limit = maxCost + Utils.round(maxCost / 100.0 * ALFA);
         Stream<Cost> stream = costList.stream();
         if (solution != null) {
             stream = stream.filter(cost -> !solution.contains(cost.point));
         }
         if (ALFA > -1) {
-            stream = stream.filter(cost -> cost.length >= limit);
+            stream = stream.filter(cost -> cost.length <= limit);
         }
         if (BETA > -1) {
             stream = stream.limit(BETA);
@@ -126,7 +126,7 @@ public abstract class Grasp implements Algorithm {
     }
 
     private int getMaxCost(List<Cost> costList) {
-        return costList.stream().max((o1, o2) -> o1.length - o2.length).get().length;
+        return costList.stream().min((o1, o2) -> o1.length - o2.length).get().length;
     }
 
     private List<Cost> calculateCost(List<Point> pointList, RoundResult solution) {
