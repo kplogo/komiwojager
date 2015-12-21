@@ -35,6 +35,21 @@ public class Result {
         return builder.toString();
     }
 
+    public RoundResult[] getResultsToReport() {
+        List<RoundResult> results = new ArrayList<>(resultList);
+        Collections.sort(results, new Comparator<RoundResult>() {
+            @Override
+            public int compare(RoundResult o1, RoundResult o2) {
+                return o1.getRouteLength() - o2.getRouteLength();
+            }
+        });
+        RoundResult[] rounds = new RoundResult[3];
+        rounds[0] = results.get(0);
+        rounds[1] = results.get(results.size()/2);
+        rounds[2] = results.get(results.size()-1);
+        return rounds;
+    }
+
     public RoundResult getBestResult() {
         return resultList.stream().max((i1, i2) -> i2.getRouteLength() - i1.getRouteLength()).get();
     }

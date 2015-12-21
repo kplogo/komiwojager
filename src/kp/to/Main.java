@@ -3,11 +3,10 @@ package kp.to;
 import kp.to.methods.*;
 import kp.to.model.Point;
 import kp.to.model.Result;
+import kp.to.model.RoundResult;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,17 +17,42 @@ public class Main {
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
 //        Algorithm algorithm = new GreedyCycle();
-        Algorithm algorithm = new GraspGreedy();
+//        Algorithm algorithm = new GraspGreedy();
 //        Algorithm algorithm = new GraspStromy();
 //        Algorithm algorithm = new NearestNeighbour();
-        Date start = Calendar.getInstance().getTime();
-        Result result = algorithm.run(pointList);
-        System.out.println(result.getBestResult().print(true));
-        System.out.println(Calendar.getInstance().getTime().getTime() - start.getTime());
+        List<Algorithm> algorithms = new ArrayList<>();
+        algorithms.add(new GreedyCycle());
+        algorithms.add(new NearestNeighbour());
+        algorithms.add(new GraspGreedy());
+        algorithms.add(new GraspStromy());
+        algorithms.add(new GraspGreedyRandom());
 
+        for (Algorithm algorithm : algorithms) {
+            Date start = Calendar.getInstance().getTime();
+            Result result = algorithm.run(pointList);
+            System.out.println(result.getBestResult().print(true));
+            System.out.println(Calendar.getInstance().getTime().getTime() - start.getTime());
+            writeToFile(algorithm, result.getResultsToReport());
+        }
     }
 
-    private static List<Point> parseToPoints(String data) {
+    private static void writeToFile(Algorithm a, RoundResult[] resultsToReport) {
+        try {
+            PrintWriter pw = new PrintWriter("resources/results_"+ a.getClass().getSimpleName() + "_" + new SimpleDateFormat("yyyyMMdd_kkmm").format(new Date(System.currentTimeMillis())));
+            for (RoundResult r : resultsToReport) {
+                pw.println(r.toString());
+            }
+            pw.flush();
+            pw.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e.getMessage());
+            for (RoundResult r : resultsToReport) {
+                System.out.println(r.toString());
+            }
+        }
+    }
+
+    public static List<Point> parseToPoints(String data) {
         List<Point> points = new ArrayList<>();
         for (String line : data.split(System.lineSeparator())) {
             points.add(new Point(line));
@@ -36,7 +60,7 @@ public class Main {
         return points;
     }
 
-    private static String readFromFile(String fileName) throws IOException {
+    public static String readFromFile(String fileName) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         try {
             StringBuilder sb = new StringBuilder();
