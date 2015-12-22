@@ -18,7 +18,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
 //        Algorithm algorithm = new GreedyCycle();
-        Algorithm algorithm = new GraspGreedy();
+        Algorithm algorithm = new Grasp(new GreedyLocalSearch());
 //        Algorithm algorithm = new GraspStromy();
 //        Algorithm algorithm = new NearestNeighbour();
         Date start = Calendar.getInstance().getTime();
