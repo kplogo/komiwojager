@@ -1,11 +1,16 @@
 package kp.to.methods;
 
+import kp.to.methods.localsearch.type.LocalSearchType;
 import kp.to.model.RoundResult;
 
 /**
  * Created by student on 2015-12-22.
  */
 public class GreedyRandomLocalSearch extends LocalSearch {
+
+    public GreedyRandomLocalSearch(LocalSearchType type) {
+        super(type);
+    }
 
     @Override
     protected RoundResult getNeighbour(RoundResult solution) {

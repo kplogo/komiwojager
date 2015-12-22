@@ -127,4 +127,14 @@ public class RoundResult {
         resultList.set(b, pointA);
         routeLength = -1;
     }
+
+    public void swapRange(int a, int b) {
+        for (int i = 0; i < (b-a)/2; i++) {
+            Point pointA = resultList.get(a+i);
+            Point pointB = resultList.get(b-i);
+            resultList.set(a+i, pointB);
+            resultList.set(b-i, pointA);
+
+        }
+    }
 }

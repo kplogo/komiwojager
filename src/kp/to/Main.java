@@ -1,6 +1,8 @@
 package kp.to;
 
 import kp.to.methods.*;
+import kp.to.methods.localsearch.type.EdgeSwap;
+import kp.to.methods.localsearch.type.NodeSwap;
 import kp.to.model.Point;
 import kp.to.model.Result;
 
@@ -17,9 +19,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
-//        Algorithm algorithm = new GreedyCycle();
-        Algorithm algorithm = new Grasp(new GreedyLocalSearch());
-//        Algorithm algorithm = new GraspStromy();
+//        Algorithm algorithm = new Grasp(new GreedyLocalSearch(new NodeSwap()));
+        Algorithm algorithm = new Grasp(new GreedyRandomLocalSearch(new EdgeSwap()));
+//        Algorithm algorithm = new Grasp(new GreedyRandomLocalSearch(new NodeSwap()));
+//        Algorithm algorithm = new Grasp(new StromyLocalSearch(new NodeSwap()));
 //        Algorithm algorithm = new NearestNeighbour();
         Date start = Calendar.getInstance().getTime();
         Result result = algorithm.run(pointList);
