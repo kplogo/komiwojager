@@ -10,33 +10,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Grasp implements Algorithm {
+public class Grasp extends AbstractLocalSearchAlgorithm {
 
     public static final int MAX_ITERATIONS = 150;
     public static final int ALFA = 25;
     public static final int BETA = 5;
-    LocalSearch localSearch;
 
 
     public Grasp(LocalSearch localSearch) {
-        this.localSearch = localSearch;
+        super(localSearch);
     }
 
     @Override
-    public Result run(List<Point> pointList) {
-        Result result = new Result();
-        for (int i = 0; i < MAX_ITERATIONS; i++) {
-            RoundResult solution = constructSolution(pointList);
-            solution = localSearch.run(solution);
-            result.addResult(solution);
-            System.out.println(solution.toString());
-        }
-
-        return result;
-    }
-
-
-    private RoundResult constructSolution(List<Point> pointList) {
+    protected RoundResult constructSolution(List<Point> pointList)  {
         RoundResult roundResult = new RoundResult();
         do {
             List<Point> rclPoints = buildRCL(pointList, roundResult);
@@ -45,6 +31,7 @@ public class Grasp implements Algorithm {
         } while (roundResult.size() < pointList.size());
         return roundResult;
     }
+
 
     private List<Point> buildRCL(List<Point> pointList, RoundResult solution) {
         List<Point> rclPoints = new LinkedList<>();
