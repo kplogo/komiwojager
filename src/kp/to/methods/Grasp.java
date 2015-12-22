@@ -12,9 +12,8 @@ import java.util.stream.Stream;
 
 public class Grasp extends AbstractLocalSearchAlgorithm {
 
-    public static final int MAX_ITERATIONS = 150;
-    public static final int ALFA = 25;
-    public static final int BETA = 5;
+    private static final int ALFA = 25;
+    private static final int BETA = 5;
 
 
     public Grasp(LocalSearch localSearch) {
