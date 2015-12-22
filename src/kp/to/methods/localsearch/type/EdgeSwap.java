@@ -13,7 +13,6 @@ public class EdgeSwap implements LocalSearchType {
         int length1 = getLength(solution, a, b, false);
         int length2 = getLength(solution, a, b, true);
         return length1 - length2;
-
     }
 
     private int getLength(RoundResult solution, int a, int b, boolean inverted) {
@@ -21,9 +20,6 @@ public class EdgeSwap implements LocalSearchType {
         Point point1 = solution.get(a);
         Point point3 = solution.get(b);
         Point point4 = solution.get((b + 1) % solution.size());
-        if (point1 == point3) {
-            return 0;
-        }
         if (inverted) {
             return Utils.length(point1, point3) + Utils.length(point2, point4);
         } else {
