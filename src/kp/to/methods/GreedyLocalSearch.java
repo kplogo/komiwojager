@@ -16,7 +16,7 @@ public class GreedyLocalSearch extends LocalSearch {
     protected RoundResult getNeighbour(RoundResult solution) {
         RoundResult newSolution;
         for (int i = 0; i < solution.size(); i++) {
-            for (int j = i; j < solution.size(); j++) {
+            for (int j = i+2; j < solution.size(); j++) {
                 if (isNewSolutionCostBetter(solution, i, j) > 0) {
                     newSolution = generateSolution(solution, i, j);
                     return newSolution;

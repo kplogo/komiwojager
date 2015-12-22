@@ -129,7 +129,7 @@ public class RoundResult {
     }
 
     public void swapRange(int a, int b) {
-        for (int i = 0; i < (b-a)/2; i++) {
+        for (int i = 0; i <= (b-a)/2; i++) {
             Point pointA = resultList.get(a+i);
             Point pointB = resultList.get(b-i);
             resultList.set(a+i, pointB);

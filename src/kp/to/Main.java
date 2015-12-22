@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
 //        Algorithm algorithm = new Grasp(new GreedyLocalSearch(new NodeSwap()));
-        Algorithm algorithm = new Grasp(new GreedyRandomLocalSearch(new EdgeSwap()));
+        Algorithm algorithm = new Grasp(new GreedyLocalSearch(new EdgeSwap()));
 //        Algorithm algorithm = new Grasp(new GreedyRandomLocalSearch(new NodeSwap()));
 //        Algorithm algorithm = new Grasp(new StromyLocalSearch(new NodeSwap()));
 //        Algorithm algorithm = new NearestNeighbour();
