@@ -1,11 +1,17 @@
 package kp.to.methods;
 
+import kp.to.methods.localsearch.type.LocalSearchType;
 import kp.to.model.RoundResult;
 
 /**
- * Created by Krzysztof.Pawlak on 2015-12-11.
+ * Created by student on 2015-12-22.
  */
-public class GraspStromy extends Grasp {
+public class StromyLocalSearch extends LocalSearch {
+
+    public StromyLocalSearch(LocalSearchType type) {
+        super(type);
+    }
+
     @Override
     protected RoundResult getNeighbour(RoundResult solution) {
         RoundResult newSolution;
@@ -28,6 +34,5 @@ public class GraspStromy extends Grasp {
             return newSolution;
         }
         return null;
-
     }
 }

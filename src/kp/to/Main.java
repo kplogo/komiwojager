@@ -1,12 +1,16 @@
 package kp.to;
 
 import kp.to.methods.*;
+import kp.to.methods.localsearch.type.EdgeSwap;
+import kp.to.methods.localsearch.type.NodeSwap;
 import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,9 +20,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
-//        Algorithm algorithm = new GreedyCycle();
-//        Algorithm algorithm = new GraspGreedy();
-//        Algorithm algorithm = new GraspStromy();
+//        Algorithm algorithm = new Grasp(new GreedyLocalSearch(new NodeSwap()));
+        Algorithm algorithm = new Grasp(new GreedyLocalSearch(new EdgeSwap()));
+//        Algorithm algorithm = new Grasp(new GreedyRandomLocalSearch(new NodeSwap()));
+//        Algorithm algorithm = new Grasp(new StromyLocalSearch(new NodeSwap()));
 //        Algorithm algorithm = new NearestNeighbour();
         List<Algorithm> algorithms = new ArrayList<>();
         algorithms.add(new GreedyCycle());
@@ -27,13 +32,6 @@ public class Main {
         algorithms.add(new GraspStromy());
         algorithms.add(new GraspGreedyRandom());
 
-        for (Algorithm algorithm : algorithms) {
-            Date start = Calendar.getInstance().getTime();
-            Result result = algorithm.run(pointList);
-            System.out.println(result.getBestResult().print(true));
-            System.out.println(Calendar.getInstance().getTime().getTime() - start.getTime());
-            writeToFile(algorithm, result.getResultsToReport());
-        }
     }
 
     private static void writeToFile(Algorithm a, RoundResult[] resultsToReport) {
