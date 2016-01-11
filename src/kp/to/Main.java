@@ -7,31 +7,38 @@ import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
 //        Algorithm algorithm = new Grasp(new GreedyLocalSearch(new NodeSwap()));
-        Algorithm algorithm = new Grasp(new GreedyLocalSearch(new EdgeSwap()));
+        //Algorithm algorithm = new Grasp(new GreedyLocalSearch(new EdgeSwap()));
 //        Algorithm algorithm = new Grasp(new GreedyRandomLocalSearch(new NodeSwap()));
 //        Algorithm algorithm = new Grasp(new StromyLocalSearch(new NodeSwap()));
 //        Algorithm algorithm = new NearestNeighbour();
         List<Algorithm> algorithms = new ArrayList<>();
-        algorithms.add(new GreedyCycle());
-        algorithms.add(new NearestNeighbour());
-        algorithms.add(new GraspGreedy());
-        algorithms.add(new GraspStromy());
-        algorithms.add(new GraspGreedyRandom());
-
+        //algorithms.add(new GreedyCycle());
+        //algorithms.add(new NearestNeighbour());
+        algorithms.add(new Grasp(new GreedyLocalSearch(new EdgeSwap())));
+        algorithms.add(new Grasp(new StromyLocalSearch(new EdgeSwap())));
+        algorithms.add(new Grasp(new GreedyRandomLocalSearch(new EdgeSwap())));
+        algorithms.add(new Grasp(new GreedyRandomLocalSearch2(new EdgeSwap())));
+        for (Algorithm a : algorithms) {
+            Result r = a.run(pointList);
+            System.err.println(a.toString());
+            for (RoundResult rr : r.getResultsToReport()) {
+                System.err.println(rr);
+            }
+            System.err.println();
+        }
     }
 
     private static void writeToFile(Algorithm a, RoundResult[] resultsToReport) {

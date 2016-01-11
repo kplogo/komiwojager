@@ -17,7 +17,7 @@ public class GreedyRandomLocalSearch extends LocalSearch {
         int random = (int) Math.round(Math.random() * solution.size());
         for (int i = random; i < random + solution.size(); i++) {
             int value = (i+1) % solution.size();
-            for (int j = value; j < solution.size(); j++) {
+            for (int j = value+1; j < solution.size(); j++) {
                 if (isNewSolutionCostBetter(solution, value, j) > 0) {
                     return generateSolution(solution, value, j);
                 }

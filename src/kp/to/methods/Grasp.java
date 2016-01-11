@@ -88,4 +88,9 @@ public class Grasp extends AbstractLocalSearchAlgorithm {
             this.length = length;
         }
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " with " + localSearch.toString() + " " + localSearch.type.toString();
+    }
 }

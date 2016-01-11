@@ -19,7 +19,7 @@ public class StromyLocalSearch extends LocalSearch {
         int minJ = -1;
         int minI = -1;
         for (int i = 0; i < solution.size(); i++) {
-            for (int j = i; j < solution.size(); j++) {
+            for (int j = i+1; j < solution.size(); j++) {
                 int difference = isNewSolutionCostBetter(solution, i, j);
                 if (difference > 0 && max < difference) {
                     minI = i;

@@ -43,7 +43,7 @@ public class Visualisation extends JFrame {
         for (String key : orders.keySet()) {
             List<Integer> order = orders.get(key);
             VisualisePanel panel = new VisualisePanel();
-            panel.draw(key, order);
+            //panel.draw(key, order);
         }
         System.out.println("Finished");
         System.exit(0);
@@ -61,8 +61,12 @@ public class Visualisation extends JFrame {
                     BufferedReader br = new BufferedReader(new FileReader(f));
                     br.lines().forEach(s -> {
                         String[] v = s.split(";");
+                        if (result == 0)
+                        System.out.println(keyBase);
                         for (int i = 0; i < v.length - 1; i++) {
                             list.add(Integer.parseInt(v[i]));
+                            if (result == 0)
+                            System.out.println(points.get(Integer.parseInt(v[i])).getLabel() + ";" + points.get(Integer.parseInt(v[i])).getX() + ";" + points.get(Integer.parseInt(v[i])).getY());
                         }
                         map.put(keyBase + res[result], list);
                         result++;
