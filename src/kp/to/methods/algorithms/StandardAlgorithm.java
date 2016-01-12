@@ -12,9 +12,9 @@ import java.util.List;
  * Created by inf106580 on 2015-12-22.
  */
 public class StandardAlgorithm implements Algorithm {
-    private static final int MAX_ITERATIONS = 150;
+    protected static final int MAX_ITERATIONS = 150;
     protected LocalSearch localSearch;
-    private SolutionConstructor solutionConstructor;
+    protected SolutionConstructor solutionConstructor;
 
     public StandardAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor) {
         this.localSearch = localSearch;
@@ -40,7 +40,8 @@ public class StandardAlgorithm implements Algorithm {
         return result;
     }
 
-    private void addSolution(Result result, RoundResult solution) {
+    protected void addSolution(Result result, RoundResult solution) {
+        result.addResult(solution);
         System.out.println(solution.toString());
     }
     @Override

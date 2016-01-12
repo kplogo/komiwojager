@@ -110,6 +110,19 @@ public class RoundResult {
         }
         return routeLength;
     }
+    //for debug only
+    public int getRouteLength(List<Point> list) {
+        int routeLength = -1;
+        if (routeLength == -1) {
+            routeLength = 0;
+            for (int i = 0; i < list.size(); i++) {
+                Point point = list.get((i + 1) % list.size());
+                Point lastPoint = list.get(i);
+                routeLength += Utils.length(lastPoint, point);
+            }
+        }
+        return routeLength;
+    }
 
     public void addAll(List<Point> bestSolution) {
         resultList.addAll(bestSolution);
@@ -136,5 +149,14 @@ public class RoundResult {
             resultList.set(b-i, pointA);
 
         }
+    }
+
+    public void performPerturbation(int break1, int break2, int break3) {
+        List<Point> currentResult = resultList;
+        resultList = new LinkedList<>();
+        resultList.addAll(currentResult.subList(0, break1));
+        resultList.addAll((currentResult.subList(break3, currentResult.size())));
+        resultList.addAll((currentResult.subList(break2, break3)));
+        resultList.addAll((currentResult.subList(break1, break2)));
     }
 }

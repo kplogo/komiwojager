@@ -1,20 +1,23 @@
 package kp.to;
 
 import kp.to.methods.algorithms.Algorithm;
+import kp.to.methods.algorithms.MultipleStartAlgorithm;
 import kp.to.methods.algorithms.StandardAlgorithm;
 import kp.to.methods.constructors.Grasp;
+import kp.to.methods.localsearch.StromyLocalSearch;
+import kp.to.methods.localsearch.type.EdgeSwap;
 import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 public class Main {
+
+    public static final Random random = new Random(System.currentTimeMillis());
 
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
@@ -26,11 +29,12 @@ public class Main {
         List<Algorithm> algorithms = new ArrayList<>();
         //algorithms.add(new GreedyCycle());
         //algorithms.add(new NearestNeighbour());
-        algorithms.add(new StandardAlgorithm(null, new Grasp()));
+//        algorithms.add(new StandardAlgorithm(null, new Grasp()));
 //        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap()),new Grasp()));
 //        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap()),new Grasp()));
 //        algorithms.add(new StandardAlgorithm(new GreedyRandomLocalSearch(new EdgeSwap()),new Grasp()));
 //        algorithms.add(new StandardAlgorithm(new GreedyRandomLocalSearch2(new EdgeSwap()),new Grasp()));
+        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(new EdgeSwap()), new Grasp()));
         for (Algorithm a : algorithms) {
             Result r = a.run(pointList);
             System.err.println(a.toString());
