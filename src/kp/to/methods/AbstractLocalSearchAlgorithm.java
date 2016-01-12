@@ -22,7 +22,9 @@ public abstract class AbstractLocalSearchAlgorithm implements Algorithm {
         Result result = new Result();
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             RoundResult solution = constructSolution(pointList);
-            solution = localSearch.run(solution);
+            if (localSearch!=null) {
+                solution = localSearch.run(solution);
+            }
             result.addResult(solution);
             System.out.println(solution.toString());
         }

@@ -27,10 +27,11 @@ public class Main {
         List<Algorithm> algorithms = new ArrayList<>();
         //algorithms.add(new GreedyCycle());
         //algorithms.add(new NearestNeighbour());
-        algorithms.add(new Grasp(new GreedyLocalSearch(new EdgeSwap())));
-        algorithms.add(new Grasp(new StromyLocalSearch(new EdgeSwap())));
-        algorithms.add(new Grasp(new GreedyRandomLocalSearch(new EdgeSwap())));
-        algorithms.add(new Grasp(new GreedyRandomLocalSearch2(new EdgeSwap())));
+        algorithms.add(new Grasp(null));
+//        algorithms.add(new Grasp(new GreedyLocalSearch(new EdgeSwap())));
+//        algorithms.add(new Grasp(new StromyLocalSearch(new EdgeSwap())));
+//        algorithms.add(new Grasp(new GreedyRandomLocalSearch(new EdgeSwap())));
+//        algorithms.add(new Grasp(new GreedyRandomLocalSearch2(new EdgeSwap())));
         for (Algorithm a : algorithms) {
             Result r = a.run(pointList);
             System.err.println(a.toString());

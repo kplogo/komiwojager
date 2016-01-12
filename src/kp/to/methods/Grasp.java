@@ -21,7 +21,7 @@ public class Grasp extends AbstractLocalSearchAlgorithm {
     }
 
     @Override
-    protected RoundResult constructSolution(List<Point> pointList)  {
+    protected RoundResult constructSolution(List<Point> pointList) {
         RoundResult roundResult = new RoundResult();
         do {
             List<Point> rclPoints = buildRCL(pointList, roundResult);
@@ -91,6 +91,10 @@ public class Grasp extends AbstractLocalSearchAlgorithm {
 
     @Override
     public String toString() {
-        return super.toString() + " with " + localSearch.toString() + " " + localSearch.type.toString();
+        if (localSearch == null) {
+            return super.toString();
+        } else {
+            return super.toString() + " with " + localSearch.toString() + " " + localSearch.type.toString();
+        }
     }
 }
