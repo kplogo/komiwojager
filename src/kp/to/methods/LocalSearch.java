@@ -36,4 +36,8 @@ public abstract class LocalSearch {
     protected RoundResult generateSolution(RoundResult solution, int a, int b) {
         return type.generateSolution(solution, a, b);
     }
+    public int getSearchCount(){
+        return 1;
+    }
+
 }
