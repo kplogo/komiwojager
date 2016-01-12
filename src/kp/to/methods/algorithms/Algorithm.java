@@ -1,4 +1,4 @@
-package kp.to.methods;
+package kp.to.methods.algorithms;
 
 import kp.to.model.Point;
 import kp.to.model.Result;

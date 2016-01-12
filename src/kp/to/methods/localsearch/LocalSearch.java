@@ -1,4 +1,4 @@
-package kp.to.methods;
+package kp.to.methods.localsearch;
 
 import kp.to.Utils;
 import kp.to.methods.localsearch.type.LocalSearchType;
@@ -9,7 +9,7 @@ import kp.to.model.RoundResult;
  * Created by student on 2015-12-22.
  */
 public abstract class LocalSearch {
-    LocalSearchType type;
+    private LocalSearchType type;
 
     public LocalSearch(LocalSearchType type) {
         this.type = type;
@@ -40,4 +40,7 @@ public abstract class LocalSearch {
         return 1;
     }
 
+    public LocalSearchType getType() {
+        return type;
+    }
 }

@@ -1,6 +1,7 @@
-package kp.to.methods;
+package kp.to.methods.algorithms;
 
 import kp.to.Utils;
+import kp.to.methods.algorithms.Algorithm;
 import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;

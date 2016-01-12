@@ -1,8 +1,8 @@
 package kp.to;
 
-import kp.to.methods.*;
-import kp.to.methods.localsearch.type.EdgeSwap;
-import kp.to.methods.localsearch.type.NodeSwap;
+import kp.to.methods.algorithms.Algorithm;
+import kp.to.methods.algorithms.StandardAlgorithm;
+import kp.to.methods.constructors.Grasp;
 import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;
@@ -10,7 +10,6 @@ import kp.to.model.RoundResult;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,19 +18,19 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
-//        Algorithm algorithm = new Grasp(new GreedyLocalSearch(new NodeSwap()));
-        //Algorithm algorithm = new Grasp(new GreedyLocalSearch(new EdgeSwap()));
-//        Algorithm algorithm = new Grasp(new GreedyRandomLocalSearch(new NodeSwap()));
-//        Algorithm algorithm = new Grasp(new StromyLocalSearch(new NodeSwap()));
+//        Algorithm algorithm = new StandardAlgorithm(new GreedyLocalSearch(new NodeSwap()),new Grasp());
+//        Algorithm algorithm = new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap()),new Grasp());
+//        Algorithm algorithm = new StandardAlgorithm(new GreedyRandomLocalSearch(new NodeSwap()),new Grasp());
+//        Algorithm algorithm = new StandardAlgorithm(new StromyLocalSearch(new NodeSwap()),new Grasp());
 //        Algorithm algorithm = new NearestNeighbour();
         List<Algorithm> algorithms = new ArrayList<>();
         //algorithms.add(new GreedyCycle());
         //algorithms.add(new NearestNeighbour());
-        algorithms.add(new Grasp(null));
-//        algorithms.add(new Grasp(new GreedyLocalSearch(new EdgeSwap())));
-//        algorithms.add(new Grasp(new StromyLocalSearch(new EdgeSwap())));
-//        algorithms.add(new Grasp(new GreedyRandomLocalSearch(new EdgeSwap())));
-//        algorithms.add(new Grasp(new GreedyRandomLocalSearch2(new EdgeSwap())));
+        algorithms.add(new StandardAlgorithm(null, new Grasp()));
+//        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap()),new Grasp()));
+//        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap()),new Grasp()));
+//        algorithms.add(new StandardAlgorithm(new GreedyRandomLocalSearch(new EdgeSwap()),new Grasp()));
+//        algorithms.add(new StandardAlgorithm(new GreedyRandomLocalSearch2(new EdgeSwap()),new Grasp()));
         for (Algorithm a : algorithms) {
             Result r = a.run(pointList);
             System.err.println(a.toString());
@@ -44,7 +43,7 @@ public class Main {
 
     private static void writeToFile(Algorithm a, RoundResult[] resultsToReport) {
         try {
-            PrintWriter pw = new PrintWriter("resources/results_"+ a.getClass().getSimpleName() + "_" + new SimpleDateFormat("yyyyMMdd_kkmm").format(new Date(System.currentTimeMillis())));
+            PrintWriter pw = new PrintWriter("resources/results_" + a.getClass().getSimpleName() + "_" + new SimpleDateFormat("yyyyMMdd_kkmm").format(new Date(System.currentTimeMillis())));
             for (RoundResult r : resultsToReport) {
                 pw.println(r.toString());
             }

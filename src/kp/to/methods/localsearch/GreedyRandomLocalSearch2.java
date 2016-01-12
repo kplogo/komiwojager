@@ -1,6 +1,5 @@
-package kp.to.methods;
+package kp.to.methods.localsearch;
 
-import kp.to.methods.LocalSearch;
 import kp.to.methods.localsearch.type.LocalSearchType;
 import kp.to.model.RoundResult;
 

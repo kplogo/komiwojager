@@ -1,8 +1,9 @@
-package kp.to.methods;
+package kp.to.methods.constructors;
 
 import kp.to.Utils;
+import kp.to.methods.constructors.SolutionConstructor;
+import kp.to.methods.localsearch.LocalSearch;
 import kp.to.model.Point;
-import kp.to.model.Result;
 import kp.to.model.RoundResult;
 
 import java.util.Collections;
@@ -10,18 +11,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Grasp extends AbstractLocalSearchAlgorithm {
+public class Grasp implements SolutionConstructor {
 
     private static final int ALFA = 25;
     private static final int BETA = 5;
 
 
-    public Grasp(LocalSearch localSearch) {
-        super(localSearch);
-    }
-
     @Override
-    protected RoundResult constructSolution(List<Point> pointList) {
+    public RoundResult constructSolution(List<Point> pointList) {
         RoundResult roundResult = new RoundResult();
         do {
             List<Point> rclPoints = buildRCL(pointList, roundResult);
@@ -89,12 +86,5 @@ public class Grasp extends AbstractLocalSearchAlgorithm {
         }
     }
 
-    @Override
-    public String toString() {
-        if (localSearch == null) {
-            return super.toString();
-        } else {
-            return super.toString() + " with " + localSearch.toString() + " " + localSearch.type.toString();
-        }
-    }
+
 }
