@@ -44,6 +44,9 @@ public class RoundResult {
     public Point get(int i) {
         return resultList.get(i);
     }
+    public List<Point> getAll() {
+        return resultList;
+    }
 
     public void add(int position, Point point) {
         resultList.add(position, point);

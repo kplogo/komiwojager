@@ -40,7 +40,5 @@ public abstract class LocalSearch {
         return 1;
     }
 
-    public LocalSearchType getType() {
-        return type;
-    }
+
 }

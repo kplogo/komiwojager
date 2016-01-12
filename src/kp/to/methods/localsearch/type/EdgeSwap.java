@@ -4,6 +4,9 @@ import kp.to.Utils;
 import kp.to.model.Point;
 import kp.to.model.RoundResult;
 
+/**
+ * Created by student on 2015-12-22.
+ */
 public class EdgeSwap implements LocalSearchType {
     @Override
     public int isNewSolutionCostBetter(RoundResult solution, int a, int b) {
@@ -13,9 +16,9 @@ public class EdgeSwap implements LocalSearchType {
     }
 
     private int getLength(RoundResult solution, int a, int b, boolean inverted) {
+        Point point1 = solution.get(a % solution.size());
         Point point2 = solution.get((a + 1) % solution.size());
-        Point point1 = solution.get(a);
-        Point point3 = solution.get(b);
+        Point point3 = solution.get(b % solution.size());
         Point point4 = solution.get((b + 1) % solution.size());
         if (inverted) {
             return Utils.length(point1, point3) + Utils.length(point2, point4);

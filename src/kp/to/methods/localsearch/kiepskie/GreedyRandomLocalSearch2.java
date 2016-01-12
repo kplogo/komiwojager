@@ -1,5 +1,6 @@
-package kp.to.methods.localsearch;
+package kp.to.methods.localsearch.kiepskie;
 
+import kp.to.methods.localsearch.LocalSearch;
 import kp.to.methods.localsearch.type.LocalSearchType;
 import kp.to.model.RoundResult;
 
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by inf106580 on 2015-12-22.
  */
-public class GreedyRandomLocalSearch2 extends LocalSearch{
+public class GreedyRandomLocalSearch2 extends LocalSearch {
     public GreedyRandomLocalSearch2(LocalSearchType type) {
         super(type);
     }
