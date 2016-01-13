@@ -16,10 +16,10 @@ public class EdgeSwap implements LocalSearchType {
     }
 
     private int getLength(RoundResult solution, int a, int b, boolean inverted) {
-        Point point1 = solution.get(a % solution.size());
-        Point point2 = solution.get((a + 1) % solution.size());
-        Point point3 = solution.get(b % solution.size());
-        Point point4 = solution.get((b + 1) % solution.size());
+        Point point1 = solution.get((solution.size() + a) % solution.size());
+        Point point2 = solution.get((solution.size() + a + 1) % solution.size());
+        Point point3 = solution.get((solution.size() + b) % solution.size());
+        Point point4 = solution.get((solution.size() + b + 1) % solution.size());
         if (inverted) {
             return Utils.length(point1, point3) + Utils.length(point2, point4);
         } else {
@@ -30,7 +30,12 @@ public class EdgeSwap implements LocalSearchType {
     @Override
     public RoundResult generateSolution(RoundResult solution, int a, int b) {
         RoundResult result = solution.copy();
-        result.swapRange(a+1, b);
+        result.swapRange(a + 1, b,solution.size());
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "EdgeSwap";
     }
 }

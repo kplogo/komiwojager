@@ -42,14 +42,14 @@ public class StandardAlgorithm implements Algorithm {
 
     protected void addSolution(Result result, RoundResult solution) {
         result.addResult(solution);
-        System.out.println(solution.toString());
+//        System.out.println(solution.toString());
     }
     @Override
     public String toString() {
         if (localSearch == null) {
-            return super.toString();
+            return getClass().getSimpleName();
         } else {
-            return super.toString() + " with " + localSearch.toString() + " " + localSearch.getType().toString();
+            return getClass().getSimpleName() + " with " + localSearch.toString() + ", " + localSearch.getType().toString()+ ", " + localSearch.getMovesGenerator().toString();
         }
     }
 }

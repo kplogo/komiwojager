@@ -1,5 +1,6 @@
 package kp.to.methods.localsearch.moves;
 
+import kp.to.methods.localsearch.Edge;
 import kp.to.model.RoundResult;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * Created by student on 2016-01-12.
  */
-public interface CandidatesGenerator {
-       List<Integer> createListToSearch(int i, RoundResult solution);
+public interface MovesGenerator {
+       List<Edge> createListToSearch(int i, RoundResult solution);
 
 }

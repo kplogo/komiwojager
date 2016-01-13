@@ -12,6 +12,7 @@ public class RoundResult {
     public static final String SEPARATOR = ";";
     private List<Point> resultList;
     private int routeLength = -1;
+    private String title;
 
 
     public RoundResult() {
@@ -44,6 +45,7 @@ public class RoundResult {
     public Point get(int i) {
         return resultList.get(i);
     }
+
     public List<Point> getAll() {
         return resultList;
     }
@@ -74,6 +76,7 @@ public class RoundResult {
             direction = -1;
         }
         StringBuilder builder = new StringBuilder();
+        builder.append(title).append("\n");
         int i = startIndex;
         do {
             Point point = resultList.get(i);
@@ -113,6 +116,7 @@ public class RoundResult {
         }
         return routeLength;
     }
+
     //for debug only
     public int getRouteLength(List<Point> list) {
         int routeLength = -1;
@@ -144,12 +148,15 @@ public class RoundResult {
         routeLength = -1;
     }
 
-    public void swapRange(int a, int b) {
-        for (int i = 0; i <= (b-a)/2; i++) {
-            Point pointA = resultList.get(a+i);
-            Point pointB = resultList.get(b-i);
-            resultList.set(a+i, pointB);
-            resultList.set(b-i, pointA);
+    public void swapRange(int a, int b, int size) {
+        if (a > b) {
+            b = b + size;
+        }
+        for (int i = 0; i <= (b - a) / 2; i++) {
+            Point pointA = resultList.get((a + i) % size);
+            Point pointB = resultList.get((b - i) % size);
+            resultList.set((a + i) % size, pointB);
+            resultList.set((b - i) % size, pointA);
 
         }
     }
@@ -161,5 +168,10 @@ public class RoundResult {
         resultList.addAll((currentResult.subList(break3, currentResult.size())));
         resultList.addAll((currentResult.subList(break2, break3)));
         resultList.addAll((currentResult.subList(break1, break2)));
+    }
+
+    public RoundResult setTitle(String title) {
+        this.title = title;
+        return this;
     }
 }

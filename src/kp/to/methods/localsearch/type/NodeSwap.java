@@ -62,4 +62,9 @@ public class NodeSwap implements LocalSearchType {
         result.swap(a, b);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "NodeSwap";
+    }
 }

@@ -21,4 +21,8 @@ public class Edge {
     public int getN2() {
         return n2;
     }
+
+    public int getLength() {
+        return length;
+    }
 }

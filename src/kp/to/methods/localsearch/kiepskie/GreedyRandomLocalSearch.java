@@ -1,6 +1,7 @@
 package kp.to.methods.localsearch.kiepskie;
 
 import kp.to.methods.localsearch.LocalSearch;
+import kp.to.methods.localsearch.moves.MovesGenerator;
 import kp.to.methods.localsearch.type.LocalSearchType;
 import kp.to.model.RoundResult;
 
@@ -9,8 +10,8 @@ import kp.to.model.RoundResult;
  */
 public class GreedyRandomLocalSearch extends LocalSearch {
 
-    public GreedyRandomLocalSearch(LocalSearchType type) {
-        super(type);
+    public GreedyRandomLocalSearch(LocalSearchType type,MovesGenerator movesGenerator) {
+        super(type, movesGenerator);
     }
 
     @Override

@@ -1,10 +1,12 @@
 package kp.to;
 
 import kp.to.methods.algorithms.Algorithm;
-import kp.to.methods.algorithms.MultipleStartAlgorithm;
 import kp.to.methods.algorithms.StandardAlgorithm;
 import kp.to.methods.constructors.Grasp;
+import kp.to.methods.localsearch.GreedyLocalSearch;
 import kp.to.methods.localsearch.StromyLocalSearch;
+import kp.to.methods.localsearch.moves.CandidateMovesGenerator;
+import kp.to.methods.localsearch.moves.StandardMovesGenerator;
 import kp.to.methods.localsearch.type.EdgeSwap;
 import kp.to.model.Point;
 import kp.to.model.Result;
@@ -20,6 +22,7 @@ public class Main {
     public static final Random random = new Random(System.currentTimeMillis());
 
     public static void main(String[] args) throws IOException {
+        long timeMillis = System.currentTimeMillis();
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
 //        Algorithm algorithm = new StandardAlgorithm(new GreedyLocalSearch(new NodeSwap()),new Grasp());
 //        Algorithm algorithm = new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap()),new Grasp());
@@ -33,13 +36,25 @@ public class Main {
 //        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap()),new Grasp()));
 //        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap()),new Grasp()));
 //        algorithms.add(new StandardAlgorithm(new GreedyRandomLocalSearch(new EdgeSwap()),new Grasp()));
-//        algorithms.add(new StandardAlgorithm(new GreedyRandomLocalSearch2(new EdgeSwap()),new Grasp()));
-        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(new EdgeSwap()), new Grasp()));
-        for (Algorithm a : algorithms) {
-            Result r = a.run(pointList);
-            System.err.println(a.toString());
+//        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap()),new Grasp()));
+//        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(new EdgeSwap()), new Grasp()));
+        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap(), new CandidateMovesGenerator()), new Grasp()));
+        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp()));
+        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap(), new CandidateMovesGenerator()), new Grasp()));
+        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp()));
+        printResult(pointList, algorithms);
+        System.out.println(System.currentTimeMillis() - timeMillis);
+    }
+
+    private static void printResult(List<Point> pointList, List<Algorithm> algorithms) {
+        for (Algorithm algorithm : algorithms) {
+            Result r = algorithm.run(pointList);
+            r.stop();
+            System.err.println(algorithm.toString());
+            System.err.println("Time: " + r.getTime());
             for (RoundResult rr : r.getResultsToReport()) {
                 System.err.println(rr);
+//                System.out.println(rr.print(true));
             }
             System.err.println();
         }

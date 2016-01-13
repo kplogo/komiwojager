@@ -1,6 +1,6 @@
 package kp.to.methods.localsearch;
 
-import kp.to.methods.localsearch.moves.CandidatesGenerator;
+import kp.to.methods.localsearch.moves.MovesGenerator;
 import kp.to.methods.localsearch.type.LocalSearchType;
 import kp.to.model.RoundResult;
 
@@ -11,24 +11,21 @@ import java.util.List;
  */
 public class GreedyLocalSearch extends LocalSearch {
 
-    private final CandidatesGenerator candidatesGenerator;
 
-    public GreedyLocalSearch(LocalSearchType type,CandidatesGenerator candidatesGenerator) {
-        super(type);
-        this.candidatesGenerator = candidatesGenerator;
+    public GreedyLocalSearch(LocalSearchType type, MovesGenerator movesGenerator) {
+        super(type,movesGenerator);
     }
 
     @Override
     protected RoundResult getNeighbour(RoundResult solution) {
         RoundResult newSolution;
         for (int i = 0; i < solution.size(); i++) {
-            List<Integer> listToSearch = candidatesGenerator.createListToSearch(i, solution);
-            for (Integer j : listToSearch) {
-                if (isNewSolutionCostBetter(solution, i, j) > 0) {
-                    newSolution = generateSolution(solution, i, j);
+            List<Edge> listToSearch = getMovesGenerator().createListToSearch(i, solution);
+            for (Edge edge : listToSearch) {
+                if (isNewSolutionCostBetter(solution, edge.getN1(), edge.getN2()) > 0) {
+                    newSolution = generateSolution(solution, edge.getN1(), edge.getN2());
                     return newSolution;
                 }
-
             }
         }
         return null;

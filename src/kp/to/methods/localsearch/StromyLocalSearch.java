@@ -1,10 +1,9 @@
 package kp.to.methods.localsearch;
 
-import kp.to.methods.localsearch.moves.CandidatesGenerator;
+import kp.to.methods.localsearch.moves.MovesGenerator;
 import kp.to.methods.localsearch.type.LocalSearchType;
 import kp.to.model.RoundResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,11 +11,8 @@ import java.util.List;
  */
 public class StromyLocalSearch extends LocalSearch {
 
-    private final CandidatesGenerator candidatesGenerator;
-
-    public StromyLocalSearch(LocalSearchType type, CandidatesGenerator candidatesGenerator) {
-        super(type);
-        this.candidatesGenerator = candidatesGenerator;
+    public StromyLocalSearch(LocalSearchType type, MovesGenerator generator) {
+        super(type, generator);
     }
 
     @Override
@@ -26,16 +22,15 @@ public class StromyLocalSearch extends LocalSearch {
         int minJ = -1;
         int minI = -1;
         for (int i = 0; i < solution.size(); i++) {
-            List<Integer> listToSearch = candidatesGenerator.createListToSearch(i, solution);
-            for (Integer j : listToSearch) {
-                int difference = isNewSolutionCostBetter(solution, i, j);
+            List<Edge> listToSearch = getMovesGenerator().createListToSearch(i, solution);
+            for (Edge edge : listToSearch) {
+                int difference = isNewSolutionCostBetter(solution, edge.getN1(), edge.getN2());
                 if (difference > 0 && max < difference) {
-                    minI = i;
-                    minJ = j;
+                    minI = edge.getN1();
+                    minJ = edge.getN2();
                     max = difference;
                 }
             }
-
         }
         if (max != Integer.MIN_VALUE) {
             newSolution = generateSolution(solution, minI, minJ);
@@ -43,6 +38,4 @@ public class StromyLocalSearch extends LocalSearch {
         }
         return null;
     }
-
-
 }
