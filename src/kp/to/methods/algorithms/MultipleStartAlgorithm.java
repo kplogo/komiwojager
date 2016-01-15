@@ -8,9 +8,6 @@ import kp.to.model.RoundResult;
 
 import java.util.List;
 
-/**
- * Created by inf106580 on 2016-01-12.
- */
 public class MultipleStartAlgorithm extends StandardAlgorithm {
 
     public static final int MAX_REPEATS = 10;

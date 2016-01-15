@@ -5,9 +5,6 @@ import kp.to.methods.localsearch.moves.MovesGenerator;
 import kp.to.methods.localsearch.type.LocalSearchType;
 import kp.to.model.RoundResult;
 
-/**
- * Created by student on 2015-12-22.
- */
 public class GreedyRandomLocalSearch extends LocalSearch {
 
     public GreedyRandomLocalSearch(LocalSearchType type,MovesGenerator movesGenerator) {

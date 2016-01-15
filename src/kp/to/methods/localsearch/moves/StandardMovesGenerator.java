@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by student on 2016-01-12.
- */
 public class StandardMovesGenerator implements MovesGenerator {
     private static Map<Integer, List<Edge>> map = new HashMap<>();
 

@@ -4,9 +4,6 @@ import kp.to.Utils;
 import kp.to.model.Point;
 import kp.to.model.RoundResult;
 
-/**
- * Created by student on 2015-12-22.
- */
 public class NodeSwap implements LocalSearchType {
 
     public int isNewSolutionCostBetter(RoundResult solution, int a, int b) {

@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by inf106580 on 2015-12-22.
- */
 public class GreedyRandomLocalSearch2 extends LocalSearch {
     public GreedyRandomLocalSearch2(LocalSearchType type, MovesGenerator movesGenerator) {
         super(type, movesGenerator);

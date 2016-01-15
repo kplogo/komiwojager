@@ -1,8 +1,5 @@
 package kp.to.methods.localsearch;
 
-/**
- * Created by student on 2016-01-12.
- */
 public class Edge {
     private int n1;
     private int n2;

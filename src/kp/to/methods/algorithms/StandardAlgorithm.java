@@ -8,9 +8,6 @@ import kp.to.model.RoundResult;
 
 import java.util.List;
 
-/**
- * Created by inf106580 on 2015-12-22.
- */
 public class StandardAlgorithm implements Algorithm {
     protected static final int MAX_ITERATIONS = 150;
     protected LocalSearch localSearch;

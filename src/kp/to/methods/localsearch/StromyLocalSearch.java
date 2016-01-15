@@ -6,9 +6,6 @@ import kp.to.model.RoundResult;
 
 import java.util.List;
 
-/**
- * Created by student on 2015-12-22.
- */
 public class StromyLocalSearch extends LocalSearch {
 
     public StromyLocalSearch(LocalSearchType type, MovesGenerator generator) {

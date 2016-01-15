@@ -1,6 +1,5 @@
 package kp.to.methods.algorithms;
 
-import kp.to.Main;
 import kp.to.methods.constructors.SolutionConstructor;
 import kp.to.methods.localsearch.LocalSearch;
 import kp.to.model.Point;
@@ -8,13 +7,12 @@ import kp.to.model.Result;
 import kp.to.model.RoundResult;
 
 import java.util.List;
+import java.util.Random;
 
-/**
- * Created by inf106580 on 2016-01-12.
- */
 public class IterationSearchAlgorithm extends StandardAlgorithm {
 
     public static final int MAX_REPEATS = 10;
+    public static final Random random = new Random(System.currentTimeMillis());
 
     public IterationSearchAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor) {
         super(localSearch, solutionConstructor);
@@ -41,10 +39,12 @@ public class IterationSearchAlgorithm extends StandardAlgorithm {
     }
 
     private RoundResult doubleBridgeMove(RoundResult solution) {
+       ///TU BYL BLAD, bo nie bylo tej linijki:P
+        solution = solution.copy();
         int size = solution.size();
-        int p1 = Main.random.nextInt(size / 4);
-        int p2 = p1 + 1 + Main.random.nextInt(size / 4);
-        int p3 = p2 + 1 + Main.random.nextInt(size / 4);
+        int p1 = random.nextInt(size / 4);
+        int p2 = p1 + 1 + random.nextInt(size / 4);
+        int p3 = p2 + 1 + random.nextInt(size / 4);
         solution.performPerturbation(p1, p2, p3);
         return solution;
     }

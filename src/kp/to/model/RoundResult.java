@@ -22,11 +22,13 @@ public class RoundResult {
     public RoundResult(Point startPoint) {
         resultList = new LinkedList<>();
         resultList.add(startPoint);
+        routeLength = -1;
     }
 
     public RoundResult(List<Point> resultList) {
         this.resultList = new LinkedList<>();
         this.resultList = resultList;
+        routeLength = -1;
     }
 
     public void add(Point p) {
@@ -117,20 +119,6 @@ public class RoundResult {
         return routeLength;
     }
 
-    //for debug only
-    public int getRouteLength(List<Point> list) {
-        int routeLength = -1;
-        if (routeLength == -1) {
-            routeLength = 0;
-            for (int i = 0; i < list.size(); i++) {
-                Point point = list.get((i + 1) % list.size());
-                Point lastPoint = list.get(i);
-                routeLength += Utils.length(lastPoint, point);
-            }
-        }
-        return routeLength;
-    }
-
     public void addAll(List<Point> bestSolution) {
         resultList.addAll(bestSolution);
         routeLength = -1;
@@ -157,8 +145,8 @@ public class RoundResult {
             Point pointB = resultList.get((b - i) % size);
             resultList.set((a + i) % size, pointB);
             resultList.set((b - i) % size, pointA);
-
         }
+        routeLength = -1;
     }
 
     public void performPerturbation(int break1, int break2, int break3) {
@@ -168,6 +156,7 @@ public class RoundResult {
         resultList.addAll((currentResult.subList(break3, currentResult.size())));
         resultList.addAll((currentResult.subList(break2, break3)));
         resultList.addAll((currentResult.subList(break1, break2)));
+        routeLength = -1;
     }
 
     public RoundResult setTitle(String title) {
@@ -175,7 +164,7 @@ public class RoundResult {
         return this;
     }
 
-    public int printResult() {
-        return getRouteLength();
+    public String printResult() {
+        return title + ": " + getRouteLength();
     }
 }

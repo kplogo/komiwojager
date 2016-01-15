@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by student on 2015-12-08.
- */
 public class NearestNeighbour implements Algorithm {
 
     private final Random random;

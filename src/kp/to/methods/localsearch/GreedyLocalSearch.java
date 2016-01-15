@@ -6,14 +6,10 @@ import kp.to.model.RoundResult;
 
 import java.util.List;
 
-/**
- * Created by student on 2015-12-22.
- */
 public class GreedyLocalSearch extends LocalSearch {
 
-
     public GreedyLocalSearch(LocalSearchType type, MovesGenerator movesGenerator) {
-        super(type,movesGenerator);
+        super(type, movesGenerator);
     }
 
     @Override
