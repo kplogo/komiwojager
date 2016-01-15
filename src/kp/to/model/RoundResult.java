@@ -174,4 +174,8 @@ public class RoundResult {
         this.title = title;
         return this;
     }
+
+    public int printResult() {
+        return getRouteLength();
+    }
 }

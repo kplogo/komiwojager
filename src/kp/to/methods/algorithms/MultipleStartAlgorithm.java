@@ -12,6 +12,9 @@ import java.util.List;
  * Created by inf106580 on 2016-01-12.
  */
 public class MultipleStartAlgorithm extends StandardAlgorithm {
+
+    public static final int MAX_REPEATS = 10;
+
     public MultipleStartAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor) {
         super(localSearch, solutionConstructor);
     }
@@ -19,18 +22,18 @@ public class MultipleStartAlgorithm extends StandardAlgorithm {
     @Override
     public Result run(List<Point> pointList) {
         Result result = new Result();
-        for (int i = 0; i < MAX_ITERATIONS; i++) {
+        for (int i = 0; i < MAX_REPEATS; i++) {
             RoundResult solution = null;
             if (localSearch != null) {
                 Result iterationResult = new Result();
-                for (int j = 0; j < localSearch.getSearchCount(); j++) {
+                for (int j = 0; j < MAX_ITERATIONS; j++) {
                     solution = solutionConstructor.constructSolution(pointList);
                     solution = localSearch.run(solution);
                     iterationResult.addResult(solution);
                 }
                 solution = iterationResult.getBestResult();
             }
-            addSolution(result, solution);
+            result.addResult(solution);
         }
 
         return result;

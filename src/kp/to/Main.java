@@ -1,6 +1,8 @@
 package kp.to;
 
 import kp.to.methods.algorithms.Algorithm;
+import kp.to.methods.algorithms.IterationSearchAlgorithm;
+import kp.to.methods.algorithms.MultipleStartAlgorithm;
 import kp.to.methods.algorithms.StandardAlgorithm;
 import kp.to.methods.constructors.Grasp;
 import kp.to.methods.localsearch.GreedyLocalSearch;
@@ -38,10 +40,22 @@ public class Main {
 //        algorithms.add(new StandardAlgorithm(new GreedyRandomLocalSearch(new EdgeSwap()),new Grasp()));
 //        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap()),new Grasp()));
 //        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(new EdgeSwap()), new Grasp()));
-        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap(), new CandidateMovesGenerator()), new Grasp()));
-        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp()));
-        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap(), new CandidateMovesGenerator()), new Grasp()));
-        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp()));
+        EdgeSwap swapType = new EdgeSwap();
+        CandidateMovesGenerator candidateMovesGenerator = new CandidateMovesGenerator();
+        StandardMovesGenerator standardMovesGenerator = new StandardMovesGenerator();
+        Grasp solutionConstructor = new Grasp();
+        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
+        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
+        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
+        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
+        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
+        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
+        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
+        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
+        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
+        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
+        algorithms.add(new IterationSearchAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
+        algorithms.add(new IterationSearchAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
         printResult(pointList, algorithms);
         System.out.println(System.currentTimeMillis() - timeMillis);
     }
@@ -53,7 +67,7 @@ public class Main {
             System.err.println(algorithm.toString());
             System.err.println("Time: " + r.getTime());
             for (RoundResult rr : r.getResultsToReport()) {
-                System.err.println(rr);
+                System.err.println(rr.printResult());
 //                System.out.println(rr.print(true));
             }
             System.err.println();

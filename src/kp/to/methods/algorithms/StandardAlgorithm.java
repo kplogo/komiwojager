@@ -27,29 +27,20 @@ public class StandardAlgorithm implements Algorithm {
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             RoundResult solution = solutionConstructor.constructSolution(pointList);
             if (localSearch != null) {
-                Result iterationResult = new Result();
-                for (int j = 0; j < localSearch.getSearchCount(); j++) {
-                    solution = localSearch.run(solution);
-                    iterationResult.addResult(solution);
-                }
-                solution = iterationResult.getBestResult();
+                solution = localSearch.run(solution);
             }
-            addSolution(result, solution);
+            result.addResult(solution);
         }
 
         return result;
     }
 
-    protected void addSolution(Result result, RoundResult solution) {
-        result.addResult(solution);
-//        System.out.println(solution.toString());
-    }
     @Override
     public String toString() {
         if (localSearch == null) {
             return getClass().getSimpleName();
         } else {
-            return getClass().getSimpleName() + " with " + localSearch.toString() + ", " + localSearch.getType().toString()+ ", " + localSearch.getMovesGenerator().toString();
+            return getClass().getSimpleName() + " with " + localSearch.toString() + ", " + localSearch.getType().toString() + ", " + localSearch.getMovesGenerator().toString();
         }
     }
 }
