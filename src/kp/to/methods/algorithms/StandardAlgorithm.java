@@ -2,6 +2,7 @@ package kp.to.methods.algorithms;
 
 import kp.to.methods.constructors.SolutionConstructor;
 import kp.to.methods.localsearch.LocalSearch;
+import kp.to.methods.stopconditions.StopCondition;
 import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;
@@ -9,26 +10,29 @@ import kp.to.model.RoundResult;
 import java.util.List;
 
 public class StandardAlgorithm implements Algorithm {
-    protected static final int MAX_ITERATIONS = 150;
+    public static final int MAX_ITERATIONS = 100;
+    protected StopCondition stopCondition;
     protected LocalSearch localSearch;
     protected SolutionConstructor solutionConstructor;
 
-    public StandardAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor) {
+    public StandardAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor, StopCondition stopCondition) {
         this.localSearch = localSearch;
         this.solutionConstructor = solutionConstructor;
+        this.stopCondition = stopCondition;
     }
 
     @Override
     public Result run(List<Point> pointList) {
         Result result = new Result();
-        for (int i = 0; i < MAX_ITERATIONS; i++) {
+        int i;
+        for (i = stopCondition.startAlgorithm(); !stopCondition.shouldStop(i); i++) {
             RoundResult solution = solutionConstructor.constructSolution(pointList);
             if (localSearch != null) {
                 solution = localSearch.run(solution);
             }
             result.addResult(solution);
         }
-
+        System.out.println(this + " " + i);
         return result;
     }
 

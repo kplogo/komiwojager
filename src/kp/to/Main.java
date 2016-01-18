@@ -7,6 +7,10 @@ import kp.to.methods.localsearch.StromyLocalSearch;
 import kp.to.methods.localsearch.moves.CandidateMovesGenerator;
 import kp.to.methods.localsearch.moves.StandardMovesGenerator;
 import kp.to.methods.localsearch.type.EdgeSwap;
+import kp.to.methods.stopconditions.IterationStopCondition;
+import kp.to.methods.stopconditions.IterationStopConditionWithTime;
+import kp.to.methods.stopconditions.StopCondition;
+import kp.to.methods.stopconditions.TimeStopCondition;
 import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;
@@ -24,36 +28,41 @@ public class Main {
         List<Point> pointList = parseToPoints(readFromFile("resources/data.tsp"));
 //        List<Algorithm> algorithms = firstLab();
 //        List<Algorithm> algorithms = secondLab();
-        List<Algorithm> algorithms =  thirdLab();
+        IterationStopConditionWithTime getTimeCondition = new IterationStopConditionWithTime(MultipleStartAlgorithm.MAX_ITERATIONS);
+        new MultipleStartAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), getTimeCondition).run(pointList);
+        final long timeLimit = getTimeCondition.getTime();
+        System.out.println("Time limit: " + timeLimit);
+        List<Algorithm> algorithms =  thirdLab(timeLimit);
         printResult(pointList, algorithms);
         System.out.println(System.currentTimeMillis() - timeMillis);
     }
 
-    private static List<Algorithm> thirdLab() {
+    private static List<Algorithm> thirdLab(long timeLimit) {
         List<Algorithm> algorithms = new ArrayList<>();
         StandardMovesGenerator standardMovesGenerator = new StandardMovesGenerator();
         EdgeSwap swapType = new EdgeSwap();
         CandidateMovesGenerator candidateMovesGenerator = new CandidateMovesGenerator();
         Grasp solutionConstructor = new Grasp();
-        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
-        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
-        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
-        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
-        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
-        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
-        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
-        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
-        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
-        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
-        algorithms.add(new IterationSearchAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor));
-        algorithms.add(new IterationSearchAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor));
+        StopCondition timeStopCondition = new TimeStopCondition(timeLimit);
+       /* algorithms.add(new StandardAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition));
+        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition));
+        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition));
+        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition));*/
+        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition));
+        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition));
+//        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition));
+//        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition));
+        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition));
+        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition));
+//        algorithms.add(new IterationSearchAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition));
+//        algorithms.add(new IterationSearchAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition));
         return algorithms;
     }
 
     private static List<Algorithm> secondLab() {
         List<Algorithm> algorithms = new ArrayList<>();
-        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp()));
-        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp()));
+        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new IterationStopCondition(StandardAlgorithm.MAX_ITERATIONS)));
+        algorithms.add(new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new IterationStopCondition(StandardAlgorithm.MAX_ITERATIONS)));
         return algorithms;
     }
 
@@ -61,7 +70,7 @@ public class Main {
         List<Algorithm> algorithms = new ArrayList<>();
         algorithms.add(new GreedyCycle());
         algorithms.add(new NearestNeighbour());
-        algorithms.add(new StandardAlgorithm(null, new Grasp()));
+        algorithms.add(new StandardAlgorithm(null, new Grasp(), new IterationStopCondition(StandardAlgorithm.MAX_ITERATIONS)));
         return algorithms;
     }
 
@@ -74,6 +83,7 @@ public class Main {
             for (RoundResult rr : r.getResultsToReport()) {
                 System.err.println(rr.printResult());
             }
+            System.out.println(r.getBestResult().print(true));
             System.err.println();
         }
     }
