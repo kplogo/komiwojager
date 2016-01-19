@@ -2,6 +2,7 @@ package kp.to.model;
 
 import kp.to.Utils;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -63,7 +64,27 @@ public class RoundResult {
     }
 
     public String print(boolean detailed) {
+        List<Point> sorted = sort();
+        StringBuilder builder = new StringBuilder();
+        builder.append(title).append("\n");
+        for (Point point : sorted) {
+            if (detailed) {
+                builder.append(point.getLabel())
+                        .append(SEPARATOR);
+                builder.append(point.getX())
+                        .append(SEPARATOR)
+                        .append(point.getY())
+                        .append(System.lineSeparator());
+            } else {
+                builder.append(point.getLabel())
+                        .append(SEPARATOR);
+            }
+        }
+        builder.append(getRouteLength());
+        return builder.toString();
+    }
 
+    private List<Point> sort() {
         int startIndex = -1;
         for (Point p : resultList) {
             if (p.getLabel() == 0) {
@@ -77,26 +98,14 @@ public class RoundResult {
         } else {
             direction = -1;
         }
-        StringBuilder builder = new StringBuilder();
-        builder.append(title).append("\n");
+        List<Point> sortedResults = new LinkedList<>();
         int i = startIndex;
         do {
             Point point = resultList.get(i);
-            if (detailed) {
-                builder.append(point.getLabel())
-                        .append(SEPARATOR);
-                builder.append(point.getX())
-                        .append(SEPARATOR)
-                        .append(point.getY())
-                        .append(System.lineSeparator());
-            } else {
-                builder.append(point.getLabel())
-                        .append(SEPARATOR);
-            }
+            sortedResults.add(point);
             i = getIndex(direction, i);
         } while (i != startIndex);
-        builder.append(getRouteLength());
-        return builder.toString();
+        return sortedResults;
     }
 
     private int getIndex(int direction, int i) {
@@ -166,5 +175,32 @@ public class RoundResult {
 
     public String printResult() {
         return title + ": " + getRouteLength();
+    }
+
+    public List<List<Point>> commonEdges(RoundResult other) {
+        List<Point> thisResult = sort();
+        List<Point> otherResult = other.sort();
+        int thisI = 0;
+        int otherI = 0;
+        List<List<Point>> commons = new ArrayList<>();
+        int size = thisResult.size();
+        while (thisI < 100) {
+            Point t = thisResult.remove(thisI);
+            otherI = otherResult.indexOf(t);
+            otherResult.remove(otherI);
+            List<Point> subList = new ArrayList<>();
+            subList.add(t);
+            for (int i = 1; i < thisResult.size()-1; i++) {
+                if (thisResult.get((thisI + i) % size).equals(otherResult.get((otherI + i) %size))) {
+                    subList.add(thisResult.remove((thisI + i) % size));
+                    otherResult.remove(((otherI + i) % size));
+                } else {
+                    thisI += i;
+                    break;
+                }
+            }
+            commons.add(subList);
+        }
+        return commons;
     }
 }

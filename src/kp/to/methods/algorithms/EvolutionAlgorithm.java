@@ -55,12 +55,13 @@ public class EvolutionAlgorithm implements Algorithm {
     }
 
     private RoundResult makeChild(RoundResult mother, RoundResult father) {
-        List<List<Integer>> parts = createChildParts(mother,father);
+        List<List<Point>> parts = createChildParts(mother,father);
         return null;
     }
 
-    private List<List<Integer>> createChildParts(RoundResult mother, RoundResult father) {
-        return null;
+    private List<List<Point>> createChildParts(RoundResult mother, RoundResult father) {
+
+        return mother.commonEdges(father);
     }
 
     @Override
