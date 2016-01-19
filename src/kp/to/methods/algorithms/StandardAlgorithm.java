@@ -10,7 +10,6 @@ import kp.to.model.RoundResult;
 import java.util.List;
 
 public class StandardAlgorithm implements Algorithm {
-    public static final int MAX_ITERATIONS = 100;
     protected StopCondition stopCondition;
     protected LocalSearch localSearch;
     protected SolutionConstructor solutionConstructor;
@@ -32,7 +31,7 @@ public class StandardAlgorithm implements Algorithm {
             }
             result.addResult(solution);
         }
-        System.out.println(this + " " + i);
+        result.setIterationCount(i);
         return result;
     }
 

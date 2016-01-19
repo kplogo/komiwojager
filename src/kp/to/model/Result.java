@@ -12,6 +12,7 @@ public class Result {
     private List<RoundResult> resultList = new ArrayList<>();
     private long start;
     private long stop = 0;
+    private int iterationCount;
 
     public Result() {
         start = System.currentTimeMillis();
@@ -68,5 +69,13 @@ public class Result {
     public void replace(RoundResult toReplace, RoundResult newItem) {
         resultList.remove(toReplace);
         resultList.add(newItem);
+    }
+
+    public void setIterationCount(int iterationCount) {
+        this.iterationCount = iterationCount;
+    }
+
+    public int getIterationCount() {
+        return iterationCount;
     }
 }

@@ -11,17 +11,18 @@ import java.util.List;
 
 public class MultipleStartAlgorithm extends StandardAlgorithm {
 
-    public static final int MAX_REPEATS = 10;
+    private final int repeatsNumber;
 
-    public MultipleStartAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor, StopCondition stopCondition) {
+    public MultipleStartAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor, StopCondition stopCondition, int repeatsNumber) {
         super(localSearch, solutionConstructor, stopCondition);
+        this.repeatsNumber = repeatsNumber;
     }
 
     @Override
     public Result run(List<Point> pointList) {
         Result result = new Result();
         int it = 0;
-        for (int i = 0;i < MAX_REPEATS ; i++) {
+        for (int i = 0;i < repeatsNumber ; i++) {
             RoundResult solution = null;
             if (localSearch != null) {
                 Result iterationResult = new Result();
@@ -35,7 +36,7 @@ public class MultipleStartAlgorithm extends StandardAlgorithm {
             }
             result.addResult(solution);
         }
-        System.out.println(this + " " + it);
+        result.setIterationCount(it);
         return result;
     }
 }

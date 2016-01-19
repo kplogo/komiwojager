@@ -183,19 +183,18 @@ public class RoundResult {
         int thisI = 0;
         int otherI = 0;
         List<List<Point>> commons = new ArrayList<>();
-        int size = thisResult.size();
-        while (thisI < 100) {
+        while (!otherResult.isEmpty() || !thisResult.isEmpty()) {
             Point t = thisResult.remove(thisI);
             otherI = otherResult.indexOf(t);
             otherResult.remove(otherI);
             List<Point> subList = new ArrayList<>();
             subList.add(t);
-            for (int i = 1; i < thisResult.size()-1; i++) {
-                if (thisResult.get((thisI + i) % size).equals(otherResult.get((otherI + i) %size))) {
-                    subList.add(thisResult.remove((thisI + i) % size));
-                    otherResult.remove(((otherI + i) % size));
+            for (int i = 1; i < thisResult.size() - 1; i++) {
+                if (thisResult.get((thisI + i) % thisResult.size()).equals(otherResult.get((otherI + i) % otherResult.size()))) {
+                    subList.add(thisResult.remove((thisI + i) % thisResult.size()));
+                    otherResult.remove(((otherI + i) % otherResult.size()));
                 } else {
-                    thisI += i;
+                    thisI += i % thisResult.size();
                     break;
                 }
             }

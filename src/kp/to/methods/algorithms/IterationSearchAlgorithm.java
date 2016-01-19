@@ -12,18 +12,19 @@ import java.util.Random;
 
 public class IterationSearchAlgorithm extends StandardAlgorithm {
 
-    public static final int MAX_REPEATS = 10;
     public static final Random random = new Random(System.currentTimeMillis());
+    private final int repeatsNumber;
 
-    public IterationSearchAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor, StopCondition stopCondition) {
+    public IterationSearchAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor, StopCondition stopCondition, int repeatsNumber) {
         super(localSearch, solutionConstructor, stopCondition);
+        this.repeatsNumber = repeatsNumber;
     }
 
     @Override
     public Result run(List<Point> pointList) {
         Result result = new Result();
         int it = 0;
-        for (int i = 0;i < MAX_REPEATS ; i++) {
+        for (int i = 0; i < repeatsNumber; i++) {
             RoundResult solution = solutionConstructor.constructSolution(pointList);
             if (localSearch != null) {
                 Result iterationResult = new Result();
@@ -37,7 +38,7 @@ public class IterationSearchAlgorithm extends StandardAlgorithm {
             }
             result.addResult(solution);
         }
-        System.out.println(this + " " + it);
+        result.setIterationCount(it);
         return result;
     }
 

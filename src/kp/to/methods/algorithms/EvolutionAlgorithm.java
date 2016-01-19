@@ -12,6 +12,9 @@ import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class EvolutionAlgorithm implements Algorithm {
@@ -28,39 +31,65 @@ public class EvolutionAlgorithm implements Algorithm {
 
     @Override
     public Result run(List<Point> pointList) {
-        Result result = new Result();
-        //Odpaliæ 20 razy SA
-        Result population = new StandardAlgorithm(new StromyLocalSearch(new EdgeSwap(), new CandidateMovesGenerator()), new Grasp(), new IterationStopCondition(ITEMS_IN_POPULATION)).run(pointList);
+        Result population = new StandardAlgorithm(localSearch, solutionConstructor, new IterationStopCondition(ITEMS_IN_POPULATION)).run(pointList);
         int i;
         for (i = stopCondition.startAlgorithm(); !stopCondition.shouldStop(i); i++) {
             //Epoka ewolucyjna
             //losowanie rodziców
-            int firstParent = (int) Math.round(Math.random() * ITEMS_IN_POPULATION);
+            int firstParent = (int) Math.round(Math.random() * (ITEMS_IN_POPULATION - 1));
             int secondParent = firstParent;
             while (secondParent == firstParent) {
-                secondParent = (int) Math.round(Math.random() * ITEMS_IN_POPULATION);
+                secondParent = (int) Math.round(Math.random() * (ITEMS_IN_POPULATION - 1));
             }
             RoundResult child = makeChild(population.get(firstParent), population.get(secondParent));
-            addChildToPopulationIfBetter(population,child);
+            RoundResult betterChild = localSearch.run(child);
+            addChildToPopulationIfBetter(population, betterChild);
         }
-        System.out.println(this + " " + i);
-        return result;
+        population.setIterationCount(i);
+        return population;
     }
 
     private void addChildToPopulationIfBetter(Result population, RoundResult child) {
         RoundResult worstResult = population.getWorstResult();
-        if (child.getRouteLength()<worstResult.getRouteLength()){
-            population.replace(worstResult,child);
+        if (child.getRouteLength() < worstResult.getRouteLength()) {
+            population.replace(worstResult, child);
         }
     }
 
     private RoundResult makeChild(RoundResult mother, RoundResult father) {
-        List<List<Point>> parts = createChildParts(mother,father);
-        return null;
+        RoundResult roundResult = new RoundResult();
+        List<List<Point>> parts = createChildParts(mother, father);
+        while (!parts.isEmpty()) {
+            int partNo = (int) Math.round(Math.random() * (parts.size() - 1));
+            int direction = (Math.random() < 0.5) ? -1 : 1;
+            List<Point> actualPart = parts.get(partNo);
+            if (direction == -1) {
+                Collections.reverse(actualPart);
+            }
+            roundResult.addAll(actualPart);
+            parts.remove(actualPart);
+        }
+        return roundResult;
+    }
+
+    private List<List<Point>> createChildParts2(RoundResult mother, RoundResult father) {
+
+        ArrayList<List<Point>> lists = new ArrayList<>();
+        List<Point> list = new ArrayList<>();
+        for (Point point : mother.getAll()) {
+            if (Math.random() < 0.05) {
+                if (!list.isEmpty()) {
+                    lists.add(list);
+                }
+                list = new ArrayList<>();
+            }
+            list.add(point);
+        }
+        lists.add(list);
+        return lists;
     }
 
     private List<List<Point>> createChildParts(RoundResult mother, RoundResult father) {
-
         return mother.commonEdges(father);
     }
 
