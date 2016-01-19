@@ -53,8 +53,20 @@ public class Result {
     public RoundResult getBestResult() {
         return resultList.stream().max((i1, i2) -> i2.getRouteLength() - i1.getRouteLength()).get();
     }
+    public RoundResult getWorstResult() {
+        return resultList.stream().min((i1, i2) -> i2.getRouteLength() - i1.getRouteLength()).get();
+    }
 
     public long getTime() {
         return stop - start;
+    }
+
+    public RoundResult get(int i) {
+        return resultList.get(i);
+    }
+
+    public void replace(RoundResult toReplace, RoundResult newItem) {
+        resultList.remove(toReplace);
+        resultList.add(newItem);
     }
 }
