@@ -19,7 +19,7 @@ public class StandardMovesGenerator implements MovesGenerator {
         }
         List<Edge> result = new ArrayList<>();
         for (int j = i + 1; j < solution.size(); j++) {
-            result.add(new Edge(i, j, 0));
+            result.add(new Edge(i, j));
         }
         map.put(i, result);
         return result;

@@ -17,26 +17,36 @@ public class CandidateMovesGenerator implements MovesGenerator {
 
     @Override
     public List<Edge> createListToSearch(int i, RoundResult solution) {
-        List<Edge> candidates = map.get(i);
-        if (candidates != null) {
-            return candidates;
-        }
+
         List<Edge> result = new ArrayList<>();
         Point point = solution.get(i);
+        List<Edge> nearestPoints = getNearestPoints(i, solution, point);
+        for (Edge nearestPoint : nearestPoints) {
+            result.add(new Edge(i, nearestPoint.getN2()));
+            result.add(new Edge(i - 1, nearestPoint.getN2() - 1));
+        }
 
-        for (int j = 0; j < solution.getAll().size(); j++) {
+        return result;
+    }
+
+    private List<Edge> getNearestPoints(int i, RoundResult solution, Point point) {
+        List<Edge> nearestPoints = map.get(i);
+        if (nearestPoints != null) {
+            return nearestPoints;
+        }
+        nearestPoints = new ArrayList<>();
+        for (int j = 0; j < solution.size(); j++) {
             if (i == j) {
                 continue;
             }
-            Point point1 = solution.getAll().get(j);
+            Point point1 = solution.get(j);
             int length = Utils.length(point, point1);
-            result.add(new Edge(i, j, length));
-            result.add(new Edge(i - 1, j - 1, length));
+            nearestPoints.add(new Edge(length, j));
         }
-
-        result.sort((o1, o2) -> o1.getLength() - o2.getLength());
-        List<Edge> list = result.subList(0, CANDIDATES_NUMBER);
+        nearestPoints.sort((o1, o2) -> o1.getN1() - o2.getN1());
+        List<Edge> list = nearestPoints.subList(0, CANDIDATES_NUMBER);
         map.put(i, list);
+
         return list;
     }
 
