@@ -177,6 +177,26 @@ public class RoundResult {
         return title + ": " + getRouteLength();
     }
 
+    public List<List<Point>> commonEdges2(RoundResult other) {
+        int size = size();
+        List<List<Point>> lists = new ArrayList<>();
+        List<Point> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            int otherIndex = other.find(this.get(i));
+//            if(otherIndex!=)
+        }
+        return lists;
+    }
+
+    private int find(Point point) {
+        for (int i = 0; i < size(); i++) {
+            if (point == get(i)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public List<List<Point>> commonEdges(RoundResult other) {
         List<Point> thisResult = sort();
         List<Point> otherResult = other.sort();
