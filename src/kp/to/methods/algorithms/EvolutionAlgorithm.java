@@ -1,7 +1,8 @@
 package kp.to.methods.algorithms;
 
-import kp.to.methods.childcreators.ChildCreator;
+import kp.to.methods.evolution.childcreators.ChildCreator;
 import kp.to.methods.constructors.SolutionConstructor;
+import kp.to.methods.evolution.populationCollectors.PopulationCollector;
 import kp.to.methods.localsearch.LocalSearch;
 import kp.to.methods.stopconditions.IterationStopCondition;
 import kp.to.methods.stopconditions.StopCondition;
@@ -18,12 +19,14 @@ public class EvolutionAlgorithm implements Algorithm {
     protected LocalSearch localSearch;
     protected SolutionConstructor solutionConstructor;
     private ChildCreator childCreator;
+    private PopulationCollector populationCollector;
 
-    public EvolutionAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor, StopCondition stopCondition, ChildCreator childCreator) {
+    public EvolutionAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor, StopCondition stopCondition, ChildCreator childCreator, PopulationCollector populationCollector) {
         this.localSearch = localSearch;
         this.solutionConstructor = solutionConstructor;
         this.stopCondition = stopCondition;
         this.childCreator = childCreator;
+        this.populationCollector = populationCollector;
     }
 
     @Override
@@ -31,9 +34,6 @@ public class EvolutionAlgorithm implements Algorithm {
         Result population = new StandardAlgorithm(localSearch, solutionConstructor, new IterationStopCondition(ITEMS_IN_POPULATION)).run(pointList);
         int i = 0;
         stopCondition.startAlgorithm();
-        long time = 0;
-        long time1 = 0;
-
         while (!stopCondition.shouldStop(i)) {
             //Epoka ewolucyjna
             //losowanie rodziców
@@ -42,13 +42,9 @@ public class EvolutionAlgorithm implements Algorithm {
             while (secondParent == firstParent) {
                 secondParent = (int) Math.round(Math.random() * (ITEMS_IN_POPULATION - 1));
             }
-            long l = System.currentTimeMillis();
             RoundResult child = makeChild(population.get(firstParent), population.get(secondParent));
-            time += System.currentTimeMillis() - l;
-            long l1 = System.currentTimeMillis();
             RoundResult betterChild = localSearch.run(child);
-            time1 += System.currentTimeMillis() - l1;
-            addChildToPopulationIfBetter(population, betterChild);
+            populationCollector.addChildToPopulationIfBetter(population, betterChild);
             i++;
         }
         population.stop();
@@ -56,14 +52,6 @@ public class EvolutionAlgorithm implements Algorithm {
         return population;
     }
 
-    private void addChildToPopulationIfBetter(Result population, RoundResult child) {
-        RoundResult worstResult = population.getWorstResult();
-        if (child.getRouteLength() < worstResult.getRouteLength()) {
-            if (!population.containsItemWithThisRouteLength(child)) {
-                population.replace(worstResult, child);
-            }
-        }
-    }
 
     private RoundResult makeChild(RoundResult mother, RoundResult father) {
         RoundResult roundResult = new RoundResult();
@@ -92,6 +80,7 @@ public class EvolutionAlgorithm implements Algorithm {
                     + ", " + localSearch
                     + ", " + localSearch.getType()
                     + ", " + localSearch.getMovesGenerator()
+                    + ", " + populationCollector
                     + ", " + childCreator;
         }
     }

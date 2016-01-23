@@ -1,9 +1,11 @@
 package kp.to;
 
 import kp.to.methods.algorithms.*;
-import kp.to.methods.childcreators.ParentChildCreator;
-import kp.to.methods.childcreators.RandomChildCreator;
+import kp.to.methods.evolution.childcreators.ParentChildCreator;
+import kp.to.methods.evolution.childcreators.RandomChildCreator;
 import kp.to.methods.constructors.Grasp;
+import kp.to.methods.evolution.populationCollectors.DefaultPopulationCollector;
+import kp.to.methods.evolution.populationCollectors.DistinctPopulationCollector;
 import kp.to.methods.localsearch.GreedyLocalSearch;
 import kp.to.methods.localsearch.StromyLocalSearch;
 import kp.to.methods.localsearch.moves.CandidateMovesGenerator;
@@ -48,8 +50,8 @@ public class Main {
 
     private static List<Algorithm> forthLab(long timeLimit) {
         List<Algorithm> algorithms = new ArrayList<>();
-        algorithms.add(new EvolutionAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new TimeStopCondition(timeLimit), new RandomChildCreator()));
-        algorithms.add(new EvolutionAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new TimeStopCondition(timeLimit), new ParentChildCreator()));
+        algorithms.add(new EvolutionAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new TimeStopCondition(timeLimit), new RandomChildCreator(), new DefaultPopulationCollector()));
+        algorithms.add(new EvolutionAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new TimeStopCondition(timeLimit), new ParentChildCreator(), new DistinctPopulationCollector()));
         return algorithms;
     }
 

@@ -1,10 +1,9 @@
-package kp.to.methods.childcreators;
+package kp.to.methods.evolution.childcreators;
 
 import kp.to.model.Point;
 import kp.to.model.RoundResult;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ParentChildCreator implements ChildCreator {
