@@ -7,12 +7,12 @@ import kp.to.model.Point;
 import kp.to.model.Result;
 import kp.to.model.RoundResult;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 public class IterationSearchAlgorithm extends StandardAlgorithm {
 
-    public static final Random random = new Random(System.currentTimeMillis());
+    public static final int MAX_PERTURBATION_PART_SIZE = 30;
     private final int repeatsNumber;
 
     public IterationSearchAlgorithm(LocalSearch localSearch, SolutionConstructor solutionConstructor, StopCondition stopCondition, int repeatsNumber) {
@@ -32,7 +32,7 @@ public class IterationSearchAlgorithm extends StandardAlgorithm {
                 stopCondition.startAlgorithm();
                 while (!stopCondition.shouldStop(j)) {
                     it++;
-                    RoundResult temporarySolution = doubleBridgeMove(solution);
+                    RoundResult temporarySolution = randomPerturbation(solution, MAX_PERTURBATION_PART_SIZE);
                     temporarySolution = localSearch.run(temporarySolution);
                     iterationResult.addResult(temporarySolution);
                     solution = iterationResult.getBestResult();
@@ -46,13 +46,20 @@ public class IterationSearchAlgorithm extends StandardAlgorithm {
         return result;
     }
 
-    private RoundResult doubleBridgeMove(RoundResult solution) {
-        solution = solution.copy();
-        int size = solution.size();
-        int p1 = random.nextInt(size / 4);
-        int p2 = p1 + 1 + random.nextInt(size / 4);
-        int p3 = p2 + 1 + random.nextInt(size / 4);
-        solution.performPerturbation(p1, p2, p3);
-        return solution;
+    private RoundResult randomPerturbation(RoundResult solution, int size) {
+        List<Point> points = new LinkedList<>(solution.getAll());
+        List<Point> result = new LinkedList<>();
+        while (!points.isEmpty()) {
+            int start = (int) Math.round(Math.random() * (points.size() - size));
+            int end = Math.min(start + size / 2 + (int) Math.round(Math.random() * (size)), points.size());
+            if (start > points.size() || start < 0) {
+                start = 0;
+                end = points.size();
+            }
+            List<Point> points1 = new LinkedList<>(points.subList(start, end));
+            result.addAll(points1);
+            points1.forEach(points::remove);
+        }
+        return new RoundResult(result);
     }
 }

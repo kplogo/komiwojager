@@ -4,7 +4,6 @@ import kp.to.Utils;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Wynik dla pojedyñczej iteracji (pojedynczy wierzcho³ek startowy)
@@ -163,16 +162,6 @@ public class RoundResult {
             resultList.set((a + i) % size, pointB);
             resultList.set((b - i) % size, pointA);
         }
-        routeLength = -1;
-    }
-
-    public void performPerturbation(int break1, int break2, int break3) {
-        List<Point> currentResult = resultList;
-        resultList = new LinkedList<>();
-        resultList.addAll(currentResult.subList(0, break1));
-        resultList.addAll((currentResult.subList(break3, currentResult.size())));
-        resultList.addAll((currentResult.subList(break2, break3)));
-        resultList.addAll((currentResult.subList(break1, break2)));
         routeLength = -1;
     }
 
