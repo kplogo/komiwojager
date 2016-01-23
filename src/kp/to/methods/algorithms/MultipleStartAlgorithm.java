@@ -26,11 +26,14 @@ public class MultipleStartAlgorithm extends StandardAlgorithm {
             RoundResult solution = null;
             if (localSearch != null) {
                 Result iterationResult = new Result();
-                for (int j = stopCondition.startAlgorithm(); !stopCondition.shouldStop(j); j++) {
+                int j = 0;
+                stopCondition.startAlgorithm();
+                while (!stopCondition.shouldStop(j)) {
                     it++;
                     solution = solutionConstructor.constructSolution(pointList);
                     solution = localSearch.run(solution);
                     iterationResult.addResult(solution);
+                    j++;
                 }
                 solution = iterationResult.getBestResult();
             }

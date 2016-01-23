@@ -18,6 +18,11 @@ public class Grasp implements SolutionConstructor {
 
 
     @Override
+    public String toString() {
+        return "Grasp";
+    }
+
+    @Override
     public RoundResult constructSolution(List<Point> pointList) {
         RoundResult roundResult = new RoundResult();
         do {

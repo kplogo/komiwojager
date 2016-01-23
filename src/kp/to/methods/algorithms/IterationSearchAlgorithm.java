@@ -28,13 +28,17 @@ public class IterationSearchAlgorithm extends StandardAlgorithm {
             RoundResult solution = solutionConstructor.constructSolution(pointList);
             if (localSearch != null) {
                 Result iterationResult = new Result();
-                for (int j = stopCondition.startAlgorithm(); !stopCondition.shouldStop(j); j++) {
+                int j = 0;
+                stopCondition.startAlgorithm();
+                while (!stopCondition.shouldStop(j)) {
                     it++;
                     RoundResult temporarySolution = doubleBridgeMove(solution);
                     temporarySolution = localSearch.run(temporarySolution);
                     iterationResult.addResult(temporarySolution);
                     solution = iterationResult.getBestResult();
+                    j++;
                 }
+                solution.setTitle("Best Round " + i);
             }
             result.addResult(solution);
         }

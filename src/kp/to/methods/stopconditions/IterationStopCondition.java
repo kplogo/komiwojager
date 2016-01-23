@@ -10,7 +10,17 @@ public class IterationStopCondition extends StopCondition {
     }
 
     @Override
+    public void startAlgorithm() {
+
+    }
+
+    @Override
     public boolean shouldStop(int currentValue) {
         return currentValue >= limit;
+    }
+
+    @Override
+    public String toString() {
+        return "IterationStopCondition";
     }
 }

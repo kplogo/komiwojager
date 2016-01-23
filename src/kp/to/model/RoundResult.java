@@ -2,9 +2,9 @@ package kp.to.model;
 
 import kp.to.Utils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Wynik dla pojedyñczej iteracji (pojedynczy wierzcho³ek startowy)
@@ -64,7 +64,7 @@ public class RoundResult {
     }
 
     public String print(boolean detailed) {
-        List<Point> sorted = sort();
+        List<Point> sorted = getSortedPointList();
         StringBuilder builder = new StringBuilder();
         builder.append(title).append("\n");
         for (Point point : sorted) {
@@ -84,7 +84,12 @@ public class RoundResult {
         return builder.toString();
     }
 
-    private List<Point> sort() {
+    public List<Point> getSortedPointList() {
+        return getSortedPointList(false);
+    }
+
+    public List<Point> getSortedPointList(boolean reverseList) {
+
         int startIndex = -1;
         for (Point p : resultList) {
             if (p.getLabel() == 0) {
@@ -97,6 +102,9 @@ public class RoundResult {
             direction = 1;
         } else {
             direction = -1;
+        }
+        if (reverseList) {
+            direction *= -1;
         }
         List<Point> sortedResults = new LinkedList<>();
         int i = startIndex;
@@ -177,51 +185,4 @@ public class RoundResult {
         return title + ": " + getRouteLength();
     }
 
-    public List<List<Point>> commonEdges2(RoundResult other) {
-        int size = size();
-        List<List<Point>> lists = new ArrayList<>();
-        List<Point> list = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            int otherIndex = other.find(this.get(i));
-//            if(otherIndex!=)
-        }
-        return lists;
-    }
-
-    private int find(Point point) {
-        for (int i = 0; i < size(); i++) {
-            if (point == get(i)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public List<List<Point>> commonEdges(RoundResult other) {
-        List<Point> thisResult = sort();
-        List<Point> otherResult = other.sort();
-        int thisI = 0;
-        int otherI = 0;
-        List<List<Point>> commons = new ArrayList<>();
-        while (!otherResult.isEmpty() || !thisResult.isEmpty()) {
-            System.err.println("\t" + thisI + " " + thisResult.size());
-            Point t = thisResult.remove(thisI);
-            otherI = otherResult.indexOf(t);
-            otherResult.remove(otherI);
-            List<Point> subList = new ArrayList<>();
-            subList.add(t);
-            for (int i = 1; i < thisResult.size() - 1; i++) {
-                if (thisResult.get((thisI + i) % thisResult.size()).equals(otherResult.get((otherI + i) % otherResult.size()))) {
-                    subList.add(thisResult.remove((thisI + i) % thisResult.size()));
-                    otherResult.remove(((otherI + i) % otherResult.size()));
-                } else {
-                    thisI = (thisI + i) % (thisResult.size());
-                    System.err.println("\t%" + thisI + " " + thisResult.size());
-                    break;
-                }
-            }
-            commons.add(subList);
-        }
-        return commons;
-    }
 }

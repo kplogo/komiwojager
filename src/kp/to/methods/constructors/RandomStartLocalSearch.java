@@ -14,9 +14,12 @@ public class RandomStartLocalSearch implements SolutionConstructor {
         List<Point> randomizedSolutionList = new ArrayList<>(pointList);
         Collections.shuffle(randomizedSolutionList);
         RoundResult r = new RoundResult();
-        for (Point p : randomizedSolutionList) {
-            r.add(p);
-        }
+        randomizedSolutionList.forEach(r::add);
         return r;
+    }
+
+    @Override
+    public String toString() {
+        return "RandomStartLocalSearch";
     }
 }

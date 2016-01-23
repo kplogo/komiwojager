@@ -54,6 +54,7 @@ public class Result {
     public RoundResult getBestResult() {
         return resultList.stream().max((i1, i2) -> i2.getRouteLength() - i1.getRouteLength()).get();
     }
+
     public RoundResult getWorstResult() {
         return resultList.stream().min((i1, i2) -> i2.getRouteLength() - i1.getRouteLength()).get();
     }
@@ -77,5 +78,14 @@ public class Result {
 
     public int getIterationCount() {
         return iterationCount;
+    }
+
+    public boolean containsItemWithThisRouteLength(RoundResult child) {
+        for (RoundResult roundResult : resultList) {
+            if (roundResult.getRouteLength() == child.getRouteLength()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -23,13 +23,15 @@ public class StandardAlgorithm implements Algorithm {
     @Override
     public Result run(List<Point> pointList) {
         Result result = new Result();
-        int i;
-        for (i = stopCondition.startAlgorithm(); !stopCondition.shouldStop(i); i++) {
+        int i = 0;
+        stopCondition.startAlgorithm();
+        while (!stopCondition.shouldStop(i)) {
             RoundResult solution = solutionConstructor.constructSolution(pointList);
             if (localSearch != null) {
                 solution = localSearch.run(solution);
             }
             result.addResult(solution);
+            i++;
         }
         result.setIterationCount(i);
         return result;

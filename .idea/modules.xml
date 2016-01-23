@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/komiwoyager.iml" filepath="$PROJECT_DIR$/komiwoyager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/visualisation/visualisation.iml" filepath="$PROJECT_DIR$/visualisation/visualisation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TO.iml" filepath="$PROJECT_DIR$/TO.iml" />
     </modules>
   </component>
 </project>

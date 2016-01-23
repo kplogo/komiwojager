@@ -12,9 +12,8 @@ public class TimeStopCondition extends StopCondition{
     }
 
     @Override
-    public int startAlgorithm() {
+    public void startAlgorithm() {
         startTime = System.currentTimeMillis();
-        return super.startAlgorithm();
     }
 
     @Override
@@ -23,4 +22,8 @@ public class TimeStopCondition extends StopCondition{
         return currentTime > limit;
     }
 
+    @Override
+    public String toString() {
+        return "TimeStopCondition";
+    }
 }

@@ -12,9 +12,8 @@ public class IterationStopConditionWithTime extends IterationStopCondition {
     }
 
     @Override
-    public int startAlgorithm() {
+    public void startAlgorithm() {
         startTime = System.currentTimeMillis();
-        return super.startAlgorithm();
     }
 
     @Override
@@ -27,4 +26,8 @@ public class IterationStopConditionWithTime extends IterationStopCondition {
         return currentTime;
     }
 
+    @Override
+    public String toString() {
+        return "IterationStopConditionWithTime";
+    }
 }

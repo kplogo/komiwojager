@@ -1,6 +1,8 @@
 package kp.to;
 
 import kp.to.methods.algorithms.*;
+import kp.to.methods.childcreators.ParentChildCreator;
+import kp.to.methods.childcreators.RandomChildCreator;
 import kp.to.methods.constructors.Grasp;
 import kp.to.methods.localsearch.GreedyLocalSearch;
 import kp.to.methods.localsearch.StromyLocalSearch;
@@ -46,7 +48,8 @@ public class Main {
 
     private static List<Algorithm> forthLab(long timeLimit) {
         List<Algorithm> algorithms = new ArrayList<>();
-        algorithms.add(new EvolutionAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new TimeStopCondition(timeLimit)));
+        algorithms.add(new EvolutionAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new TimeStopCondition(timeLimit), new RandomChildCreator()));
+        algorithms.add(new EvolutionAlgorithm(new StromyLocalSearch(new EdgeSwap(), new StandardMovesGenerator()), new Grasp(), new TimeStopCondition(timeLimit), new ParentChildCreator()));
         return algorithms;
     }
 
@@ -62,12 +65,12 @@ public class Main {
 //        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition,MAX_REPEATS));
 //        algorithms.add(new StandardAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition,MAX_REPEATS));
 //        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition,MAX_REPEATS));
-        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition, MAX_REPEATS));
 //        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition,MAX_REPEATS));
-        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition, MAX_REPEATS));
 //        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition,MAX_REPEATS));
-        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition, MAX_REPEATS));
 //        algorithms.add(new IterationSearchAlgorithm(new GreedyLocalSearch(swapType, candidateMovesGenerator), solutionConstructor, timeStopCondition,MAX_REPEATS));
+        algorithms.add(new MultipleStartAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition, MAX_REPEATS));
+        algorithms.add(new IterationSearchAlgorithm(new StromyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition, MAX_REPEATS));
+        algorithms.add(new MultipleStartAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition, MAX_REPEATS));
         algorithms.add(new IterationSearchAlgorithm(new GreedyLocalSearch(swapType, standardMovesGenerator), solutionConstructor, timeStopCondition, MAX_REPEATS));
         return algorithms;
     }

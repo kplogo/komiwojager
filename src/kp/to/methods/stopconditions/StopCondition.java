@@ -10,8 +10,6 @@ public abstract class StopCondition {
     public StopCondition(long limit) {
         this.limit = limit;
     }
-    public int startAlgorithm() {
-        return 0;
-    }
+    public abstract void startAlgorithm() ;
     public abstract boolean shouldStop(int iteration);
 }
